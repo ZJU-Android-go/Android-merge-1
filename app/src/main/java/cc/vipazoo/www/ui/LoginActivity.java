@@ -35,26 +35,38 @@ public class LoginActivity extends AppCompatActivity {
         String password = editText2.getText().toString();
 
         // HERE add thing to get the real username and password
-        LoginController loginController = new LoginController(username, password);
+        final LoginController loginController = new LoginController(username, password);
 
         try {
-            // status is the msg got from server
-            String status = loginController.login();
-            if(status.equals("登录成功")) {
-                // jump to main activity
-                Intent intent = new Intent(this, MainActivity.class);
-                // save the user data
-                intent.putExtra(EXTRA_MESSAGE, loginController.getUser());
-                startActivity(intent);
-            }
-            else {
-                // login failed
-                Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
-            }
+            Log.e("Before loginController", "OK");
+            loginController.login();
+            Log.e("After loginController", "OK");
         }
         catch (Exception e) {
-            Log.e("TAG", e.toString());
+            Log.e("loginController", "ERROR");
             Toast.makeText(this, "Something wrong happens", Toast.LENGTH_SHORT).show();
+        }
+
+        while (loginController.ret_login == null) {
+            try {
+                Thread.sleep(1000);
+                Log.e("status", "SLEEP");
+            }
+            catch (Exception e) {
+                Log.e("status", "SLEEP WRONG");
+            }
+        }
+
+        if(loginController.ret_login.equals("登录成功")) {
+            // jump to main activity
+            Intent intent = new Intent(this, MainActivity.class);
+            // save the user data
+            intent.putExtra(EXTRA_MESSAGE, loginController.getUser());
+            startActivity(intent);
+        }
+        else {
+            // login failed
+            Toast.makeText(this, loginController.ret_login, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -35,7 +35,9 @@
         <activity
             android:name=".AddRelationActivity"
             android:label=""
-            android:theme="@style/Theme.AppCompat.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".TripletActivity" />
+        <activity android:name=".ListVIewActivity"></activity>
     </application>
 
 </manifest>
