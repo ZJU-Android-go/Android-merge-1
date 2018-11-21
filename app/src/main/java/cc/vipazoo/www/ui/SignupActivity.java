@@ -42,8 +42,8 @@ public class SignupActivity extends AppCompatActivity {
             try {
                 status = loginController.register();
             }
-            catch (Exception e) {
-                status = "Something wrong happens";
+            catch (Exception e){
+                //status = "Something wrong happens";
             }
         }
         Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
