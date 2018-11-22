@@ -78,15 +78,10 @@ public class LoginController {
                         return false;
                     }
                 }).create();
-                RequestBody formbody = new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("username", user.getName())
-                            .addFormDataPart("password", user.getPasswd())
-                            .build();
-                        /*new FormBody.Builder()
+                RequestBody formbody = new FormBody.Builder()
                         .add("username", user.getName())
                         .add("password", user.getPasswd())
-                        .build();*/
+                        .build();
                 Request request = new Request.Builder()
                         .url("http://10.15.82.223:9090/app_get_data/app_signincheck")
                         .post(formbody)
@@ -99,8 +94,7 @@ public class LoginController {
                 Web_Message msg;
                 msg = gson.fromJson(js, Web_Message.class);
                 System.out.println(msg.getmsg());
-                //ret_login = msg.getmsg();
-                ret_login = formbody.toString();
+                ret_login = msg.getmsg();
                     if (ret_login.equals("登录成功")) {
                     user.settoken(msg.gettoken());
                 }
@@ -166,17 +160,11 @@ public class LoginController {
             return false;
         }
     }).create();
-        RequestBody formbody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("username", user.getName())
-                .addFormDataPart("email", user.getEmail_address())
-                .addFormDataPart("password", user.getPasswd())
-                .build();
-                /*new FormBody.Builder()
+        RequestBody formbody = new FormBody.Builder()
                 .add("username", user.getName())
                 .add("email", user.getEmail_address())
                 .add("password", user.getPasswd())
-                .build();*/
+                .build();
         Request request = new Request.Builder()
                 .url("http://10.15.82.223:9090/app_get_data/app_register")
                 .post(formbody)
