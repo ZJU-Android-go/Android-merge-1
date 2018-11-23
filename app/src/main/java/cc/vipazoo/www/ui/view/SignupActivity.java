@@ -1,4 +1,4 @@
-package cc.vipazoo.www.ui;
+package cc.vipazoo.www.ui.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.LoginController;
 
 public class SignupActivity extends AppCompatActivity {

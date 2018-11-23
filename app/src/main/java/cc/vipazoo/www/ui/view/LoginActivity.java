@@ -1,4 +1,4 @@
-package cc.vipazoo.www.ui;
+package cc.vipazoo.www.ui.view;
 
 
 import android.content.Intent;
@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.LoginController;
-import cc.vipazoo.www.ui.model.User;
 
 public class LoginActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.LoginActivity.MESSAGE";
+    public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.view.LoginActivity.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         while (loginController.ret_login == null) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
                 Log.e("status", "SLEEP");
             }
             catch (Exception e) {
@@ -61,7 +61,9 @@ public class LoginActivity extends AppCompatActivity {
             // jump to main activity
             Intent intent = new Intent(this, MainActivity.class);
             // save the user data
-            intent.putExtra(EXTRA_MESSAGE, loginController.getUser());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(EXTRA_MESSAGE, loginController.getUser());
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         else {

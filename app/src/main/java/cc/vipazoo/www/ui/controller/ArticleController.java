@@ -42,11 +42,16 @@ public class ArticleController {
         }
 
     };
+
+    public Article getArticle() {
+        return this.article;
+    }
+
     public ArticleController(User user)
     {
         this.user = user;
     }
-    public int getArticle()
+    public boolean getArticleFromServer()
     {
         final Gson gson = new Gson();
         FormBody formbody = new FormBody.Builder()
@@ -87,7 +92,7 @@ public class ArticleController {
                 handler.sendMessage(tomain);
             }
         });
-        return 1;
+        return true;        // Here has some problems, deal with failure
     }
 
 

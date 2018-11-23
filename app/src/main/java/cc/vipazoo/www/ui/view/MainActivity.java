@@ -1,15 +1,10 @@
-package cc.vipazoo.www.ui;
+package cc.vipazoo.www.ui.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,16 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.Serializable;
-
+import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.ArticleController;
-import cc.vipazoo.www.ui.model.Article;
+import cc.vipazoo.www.ui.controller.TripletController;
 import cc.vipazoo.www.ui.model.User;
 
 public class MainActivity extends AppCompatActivity
@@ -58,15 +49,14 @@ public class MainActivity extends AppCompatActivity
 
         // initialize token from LoginActivity
         Intent intent = getIntent();
-        Serializable se = intent.getStringExtra(LoginActivity.EXTRA_MESSAGE);
-        user = (User) se;
-        // get the first article
-        ArticleController articleController = new ArticleController(user);
+        user = (User) intent.getSerializableExtra(LoginActivity.EXTRA_MESSAGE);
+////////////////////////////////////////////////////////////////////////////////
 
-        TextView article = findViewById(R.id.article);
-        article.setText(articleController.getArticle());
-        article.setMovementMethod(ScrollingMovementMethod.getInstance());
+        // get the first article
+        set_article();
+
         // get the first triplet
+        set_triplet();
 
     }
 
@@ -105,11 +95,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.action_new_article) {
             // get the article from server
-            ArticleController articleController = new ArticleController(user);
-
-            TextView article = findViewById(R.id.article);
-            article.setText(articleController.getArticle());
-            article.setMovementMethod(ScrollingMovementMethod.getInstance());
+            set_article();
         }
 
         return super.onOptionsItemSelected(item);
@@ -122,7 +108,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            // Do nothing
         }
         else if (id == R.id.nav_gallery) {
 
@@ -131,7 +117,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_manage) {
-
+            startActivity(new Intent(this, ListViewActivity.class));
         }
         else if (id == R.id.nav_share) {
 
@@ -217,5 +203,41 @@ public class MainActivity extends AppCompatActivity
             // y axis movement
             return dy > 0 ? 'b' : 't';
         }
+    }
+
+    private void set_article() {
+        ArticleController articleController = new ArticleController(user);
+        TextView maintitle = findViewById(R.id.maintitle);
+        TextView subtitle = findViewById(R.id.subtitle);
+        TextView article = findViewById(R.id.article);
+
+        // get the article
+        articleController.getArticleFromServer();
+
+        // wait until the server returns
+        while (articleController.getArticle().getTitle() == null) {
+            try {
+                article.setText(null);
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // separate title and subtitle
+        String title = articleController.getArticle().getTitle();
+        String[] title_list = title.split("\\|");
+        maintitle.setText(title_list[0]);
+        subtitle.setText(title_list[1]);
+
+        // set content
+        article.setText(articleController.getArticle().getContent());
+        article.setMovementMethod(ScrollingMovementMethod.getInstance());
+    }
+
+    private void set_triplet() {
+        TripletController tripletController = new TripletController(user);
+//        tripletController.getTriplets();
     }
 }
