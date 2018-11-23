@@ -62,8 +62,8 @@ public class LoginController {
                 try {
                 Gson gson = new Gson();
                 RequestBody formbody = new FormBody.Builder()
-//                        .add("username", user.getName())
-//                        .add("password", user.getPasswd())
+                        .add("username", user.getName())
+                        .add("password", user.getPasswd())
                         .build();
                 Request request = new Request.Builder()
                         .url("http://10.15.82.223:9090/app_get_data/app_signincheck")
