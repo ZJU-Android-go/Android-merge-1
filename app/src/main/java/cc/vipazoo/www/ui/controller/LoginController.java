@@ -1,6 +1,10 @@
 package cc.vipazoo.www.ui.controller;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import cc.vipazoo.www.ui.model.Web_Message;
 import cc.vipazoo.www.ui.model.User;
 import cc.vipazoo.www.ui.model.Converter;
@@ -8,17 +12,19 @@ import cc.vipazoo.www.ui.model.Converter;
 import java.io.IOException;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.BufferedSink;
 
 public class LoginController {
     private static User user = new User();
     static Converter conv = new Converter();
     private static final OkHttpClient connection = new OkHttpClient();
     public String ret_login;
-
     public User getUser() {
         return user;
     }
@@ -56,11 +62,22 @@ public class LoginController {
 
     public void login()
     {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
+                    }
+
+                    @Override
+                    public boolean shouldSkipClass(Class<?> clazz) {
+                        return false;
+                    }
+                }).create();
                 RequestBody formbody = new FormBody.Builder()
                         .add("username", user.getName())
                         .add("password", user.getPasswd())
@@ -78,7 +95,7 @@ public class LoginController {
                 msg = gson.fromJson(js, Web_Message.class);
                 System.out.println(msg.getmsg());
                 ret_login = msg.getmsg();
-                if (ret_login.equals("登录成功")) {
+                    if (ret_login.equals("登录成功")) {
                     user.settoken(msg.gettoken());
                 }
                 }
@@ -91,7 +108,17 @@ public class LoginController {
 
     public void logout() throws  Exception
     {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+        @Override
+        public boolean shouldSkipField(FieldAttributes f) {
+            return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
+        }
+
+        @Override
+        public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+        }
+    }).create();
         FormBody formbody = new FormBody.Builder()
                 .add("token", user.gettoken())
                 .build();
@@ -122,8 +149,18 @@ public class LoginController {
     public String register() throws  Exception
     {
 
-        Gson gson = new Gson();
-        FormBody formbody = new FormBody.Builder()
+        Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+        @Override
+        public boolean shouldSkipField(FieldAttributes f) {
+            return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
+        }
+
+        @Override
+        public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+        }
+    }).create();
+        RequestBody formbody = new FormBody.Builder()
                 .add("username", user.getName())
                 .add("email", user.getEmail_address())
                 .add("password", user.getPasswd())
@@ -140,7 +177,8 @@ public class LoginController {
         String js = new String(conv.unicodeToUtf8(response.body().string()));
         Web_Message msg;
         msg = gson.fromJson(js, Web_Message.class);
-        final String ret = msg.getmsg();
+       // final String ret = msg.getmsg();
+        final String ret = formbody.toString();
         return ret;
     }
 }
