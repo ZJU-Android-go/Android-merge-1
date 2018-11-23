@@ -5,19 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_triplet"
             android:icon="@drawable/ic_menu_camera"
             android:title="关系标注" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/my_triplet"
             android:icon="@drawable/ic_menu_gallery"
             android:title="我的关系" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_entity"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="实体标注" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/my_entity"
             android:icon="@drawable/ic_menu_manage"
             android:title="我的实体" />
     </group>
@@ -25,7 +25,7 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_share"
                 android:title="设置" />
             <item

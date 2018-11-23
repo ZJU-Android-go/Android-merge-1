@@ -14,7 +14,7 @@ import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.LoginController;
 
 public class LoginActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.view.LoginActivity.MESSAGE";
+    public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.view.LoginActivity.toMainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(loginController.ret_login.equals("登录成功")) {
             // jump to main activity
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, WelcomeActivity.class);
             // save the user data
             Bundle bundle = new Bundle();
             bundle.putSerializable(EXTRA_MESSAGE, loginController.getUser());

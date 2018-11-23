@@ -1,18 +1,18 @@
 package cc.vipazoo.www.ui.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.text.method.ScrollingMovementMethod;
-import android.view.MotionEvent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
@@ -21,7 +21,7 @@ import cc.vipazoo.www.ui.controller.ArticleController;
 import cc.vipazoo.www.ui.controller.TripletController;
 import cc.vipazoo.www.ui.model.User;
 
-public class MainActivity extends AppCompatActivity
+public class TripletActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
@@ -34,24 +34,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_triplet);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_triplet);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // initialize token from LoginActivity
         Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra(LoginActivity.EXTRA_MESSAGE);
+        user = (User) intent.getSerializableExtra("TO NAV_TRIPLET");
 ////////////////////////////////////////////////////////////////////////////////
-
         // get the first article
         set_article();
 
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_triplet);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -72,8 +71,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.triplet, menu);
         return true;
     }
 
@@ -94,8 +92,8 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         else if (id == R.id.action_new_article) {
-            // get the article from server
             set_article();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -107,26 +105,26 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_triplet) {
             // Do nothing
         }
-        else if (id == R.id.nav_gallery) {
+        else if (id == R.id.my_triplet) {
 
         }
-        else if (id == R.id.nav_slideshow) {
+        else if (id == R.id.nav_entity) {
 
         }
-        else if (id == R.id.nav_manage) {
+        else if (id == R.id.my_entity) {
             startActivity(new Intent(this, ListViewActivity.class));
         }
-        else if (id == R.id.nav_share) {
+        else if (id == R.id.nav_settings) {
 
         }
         else if (id == R.id.nav_send) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_triplet);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

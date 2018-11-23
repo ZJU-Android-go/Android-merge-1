@@ -25,13 +25,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".view.SignupActivity"
             android:label="Sign Up"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.WelcomeActivity"
+            android:label="Welcome"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.TripletActivity"
+            android:label="Triplets"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.AddRelationActivity"
             android:label=""
@@ -39,7 +43,7 @@
         <activity android:name=".TripletActivity" />
         <activity
             android:name=".view.ListViewActivity"
-            android:label="Triplets" />
+            android:label="My Triplets" />
     </application>
 
 </manifest>
