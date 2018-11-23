@@ -7,7 +7,7 @@
     android:background="@drawable/loginbackground"
 
     android:fitsSystemWindows="true"
-    tools:context=".LoginActivity">
+    tools:context=".view.LoginActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

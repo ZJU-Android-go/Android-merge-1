@@ -58,7 +58,7 @@ public class TripletController {
     }
 
     // okHttp POST 异步请求
-    private int getTriplets()
+    public boolean getTriplets()
     {
         Gson gson = new Gson();
         FormBody formbody = new FormBody.Builder()
@@ -86,6 +86,6 @@ public class TripletController {
                 }
             }
         });
-        return 1;
+        return true;
     }
 }
