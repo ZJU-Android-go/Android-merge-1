@@ -35,15 +35,27 @@
         <activity
             android:name=".view.TripletActivity"
             android:label="Triplets"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.AddRelationActivity"
+            android:name=".view.AddTripletActivity"
             android:label=""
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".TripletActivity" />
         <activity
-            android:name=".view.ListViewActivity"
-            android:label="My Triplets" />
+            android:name=".view.ListViewTripletActivity"
+            android:label="My Triplets"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.EntityActivity"
+            android:label="Entities"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.AddEntityActivity"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity
+            android:name=".view.ListViewEntityActivity"
+            android:label="My Entities"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
