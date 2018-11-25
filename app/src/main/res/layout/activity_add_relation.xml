@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
-    tools:context=".view.AddTripletActivity">
+    tools:context=".view.AddRelationActivity">
+
 
     <EditText
-        android:id="@+id/AddTripletEntity1"
+        android:id="@+id/AddRelationEntity1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -23,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/AddTripletRelation"
+        android:id="@+id/AddRelationRelation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/AddTripletEntity2"
+        android:id="@+id/AddRelationEntity2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
@@ -61,7 +62,7 @@
         android:layout_marginTop="240dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/bt_shape"
-        android:onClick="AddTriplet"
+        android:onClick="AddRelation"
         android:text="OK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
