@@ -1,6 +1,5 @@
 package cc.vipazoo.www.ui.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
@@ -10,21 +9,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.animation.TranslateAnimation;
-import android.widget.TextView;
 
 import cc.vipazoo.www.ui.R;
-import cc.vipazoo.www.ui.controller.ArticleController;
 import cc.vipazoo.www.ui.controller.TripletController;
 import cc.vipazoo.www.ui.model.User;
 
 public class TripletActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Context context = null;
+
     private User user;
 
     private float downX;
@@ -32,16 +28,11 @@ public class TripletActivity extends AppCompatActivity
     // if the bottom widget can be seen
     private boolean if_show = true;
 
-    public Context getContext()
-    {
-        return context;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_triplet);
-        context = getApplicationContext();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -57,8 +48,6 @@ public class TripletActivity extends AppCompatActivity
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO NAV_TRIPLET");
 ////////////////////////////////////////////////////////////////////////////////
-        // get the first article
-        set_article();
 
         // get the first triplet
         set_triplet();
@@ -77,7 +66,7 @@ public class TripletActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.triplet, menu);
+        getMenuInflater().inflate(R.menu.triplet_entity, menu);
         return true;
     }
 
@@ -93,12 +82,11 @@ public class TripletActivity extends AppCompatActivity
             return true;
         }
         else if (id == R.id.action_add_relation) {
-            Intent intent = new Intent(this, AddRelationActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, AddTripletActivity.class));
             return true;
         }
         else if (id == R.id.action_new_article) {
-            set_article();
+            set_triplet();
             return true;
         }
 
@@ -118,10 +106,14 @@ public class TripletActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_entity) {
-
+            Intent intent = new Intent(this, EntityActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TO NAV_ENTITY", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if (id == R.id.my_entity) {
-            startActivity(new Intent(this, ListViewActivity.class));
+            startActivity(new Intent(this, ListViewEntityActivity.class));
         }
         else if (id == R.id.nav_settings) {
 
@@ -207,37 +199,6 @@ public class TripletActivity extends AppCompatActivity
             // y axis movement
             return dy > 0 ? 'b' : 't';
         }
-    }
-
-    private void set_article() {
-        ArticleController articleController = new ArticleController(user);
-        TextView maintitle = findViewById(R.id.maintitle);
-        TextView subtitle = findViewById(R.id.subtitle);
-        TextView article = findViewById(R.id.article);
-
-        // get the article
-        articleController.getArticleFromServer();
-
-        // wait until the server returns
-        while (articleController.getArticle().getTitle() == null) {
-            try {
-                article.setText(null);
-                Thread.sleep(500);
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // separate title and subtitle
-        String title = articleController.getArticle().getTitle();
-        String[] title_list = title.split("\\|");
-        maintitle.setText(title_list[0]);
-        subtitle.setText(title_list[1]);
-
-        // set content
-        article.setText(articleController.getArticle().getContent());
-        article.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     private void set_triplet() {

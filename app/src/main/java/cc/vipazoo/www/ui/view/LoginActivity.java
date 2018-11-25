@@ -1,7 +1,6 @@
 package cc.vipazoo.www.ui.view;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,21 +15,18 @@ import cc.vipazoo.www.ui.controller.LoginController;
 
 public class LoginActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.view.LoginActivity.toMainActivity";
-    private Context context = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        context = getApplicationContext();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
-    public Context getContext()
-    {
-        return context;
-    }
+
     public void LogIn(View view) {
         // get the username and password
         EditText editText1 = findViewById(R.id.editTextUsername);

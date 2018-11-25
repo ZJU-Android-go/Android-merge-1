@@ -97,7 +97,7 @@ public class UploadController
                 .add("token", user.gettoken())
                 .build();
         Request request = new Request.Builder()
-                .url("http://10.15.82.223:9090/app_get_data/app_upload_triple")
+                .url("http://10.15.82.223:9090/app_get_data/app_upload_entity")
                 .post(formbody)
                 .build();
         Response response = connection.newCall(request).execute();
