@@ -92,18 +92,10 @@ public class WelcomeActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_entity) {
-            Intent intent = new Intent(this, EntityActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("TO NAV_ENTITY", user);
-            intent.putExtras(bundle);
-            startActivity(intent);
+
         }
         else if (id == R.id.my_entity) {
-            Intent intent = new Intent(this, ListViewEntityActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("TO MY_ENTITY", user);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            startActivity(new Intent(this, ListViewActivity.class));
         }
         else if (id == R.id.nav_settings) {
 
