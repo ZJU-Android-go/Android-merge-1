@@ -1,6 +1,7 @@
 package cc.vipazoo.www.ui.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
+import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.animation.TranslateAnimation;
@@ -24,11 +27,7 @@ public class EntityActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
-
-    private float downX;
-    private float downY;
-    // if the bottom widget can be seen
-    private boolean if_show = true;
+    private ActionMode.Callback2 callback_entity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +48,54 @@ public class EntityActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO NAV_ENTITY");
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
         // get the first article
         set_article();
 
+        // required by my teammate, to deal with text
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            TextView textView = findViewById(R.id.article_entity);
+            textView.setTextIsSelectable(true);
+//            textView.setSelectAllOnFocus(true);
+            textView.setCustomSelectionActionModeCallback(callback_entity);
+            callback_entity = new ActionMode.Callback2() {
+                @Override
+                public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                    MenuInflater inflater = actionMode.getMenuInflater();
+                    inflater.inflate(R.menu.selection_entity, menu);
+                    return true;
+                }
 
+                @Override
+                public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.selection_entity_select:
+                            Intent intent = new Intent();
+                            intent.setAction("add_entity_activity");
+                            startActivity(intent);
+                            break;
+                        default:
+                            return false;
+                    }
+
+                    return true;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode actionMode) {
+
+                }
+            };
+        }
     }
 
     @Override
@@ -130,22 +171,12 @@ public class EntityActivity extends AppCompatActivity
         return true;
     }
 
-    private int getOrientation(float dx, float dy) {
-        if (Math.abs(dx) > Math.abs(dy)) {
-            // x axis movement
-            return dx > 0 ? 'r' : 'l';
-        }
-        else {
-            // y axis movement
-            return dy > 0 ? 'b' : 't';
-        }
-    }
 
     private void set_article() {
         ArticleController articleController = new ArticleController(user);
         TextView maintitle = findViewById(R.id.maintitle);
         TextView subtitle = findViewById(R.id.subtitle);
-        TextView article = findViewById(R.id.article);
+        TextView article = findViewById(R.id.article_entity);
 
         // get the article
         articleController.getArticleFromServer();
@@ -178,4 +209,13 @@ public class EntityActivity extends AppCompatActivity
         article.setText(articleController.getArticle().getContent());
         article.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
+
+    // following gets a sentence and select entity and tag
 }
+
+
+
+
+
+
+
