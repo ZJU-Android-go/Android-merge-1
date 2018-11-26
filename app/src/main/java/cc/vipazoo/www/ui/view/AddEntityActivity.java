@@ -16,8 +16,8 @@ public class AddEntityActivity extends AppCompatActivity {
     }
 
     public void AddEntity(View view) {
-        EditText entity1 = findViewById(R.id.AddEntityEntity1);
-        EditText entity2 = findViewById(R.id.AddEntityEntity2);
+        EditText entity1 = findViewById(R.id.AddEntityEntity);
+        EditText entity2 = findViewById(R.id.AddEntityTag);
         String sentity1 = entity1.getText().toString();
         String sentity2 = entity2.getText().toString();
 

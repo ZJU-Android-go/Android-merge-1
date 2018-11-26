@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
-    tools:context=".view.AddRelationActivity">
+    tools:context=".view.AddTripletActivity">
 
 
     <EditText
-        android:id="@+id/AddRelationEntity1"
+        android:id="@+id/AddTripletEntity1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -17,14 +17,14 @@
         android:gravity="center_horizontal|center"
         android:hint="Entity1"
         android:inputType="textPersonName"
-        android:textColorHint="@color/colotHint"
+        android:textColorHint="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/AddRelationRelation"
+        android:id="@+id/AddTripletRelation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -34,14 +34,14 @@
         android:gravity="center"
         android:hint="Relation"
         android:inputType="textPersonName"
-        android:textColorHint="@color/colotHint"
+        android:textColorHint="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/AddRelationEntity2"
+        android:id="@+id/AddTripletEntity2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
@@ -49,7 +49,7 @@
         android:gravity="center"
         android:hint="Entity2"
         android:inputType="textPersonName"
-        android:textColorHint="@color/colotHint"
+        android:textColorHint="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
         android:layout_marginTop="240dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/bt_shape"
-        android:onClick="AddRelation"
+        android:onClick="AddTriplet"
         android:text="OK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

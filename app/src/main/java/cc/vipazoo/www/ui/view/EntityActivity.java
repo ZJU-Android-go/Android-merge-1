@@ -130,69 +130,6 @@ public class EntityActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        // when touch down
-        float x = event.getX();
-        float y = event.getY();
-        // switch the gesture
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                // save the pos when touching
-                downX = x;
-                downY = y;
-                break;
-            case MotionEvent.ACTION_UP:
-                // get the subtraction
-                float dx = x - downX;
-                float dy = y - downY;
-                // give a fault-tolerance
-                if(Math.abs(dx) > 8 && Math.abs(dy) > 8) {
-                    int orientation = getOrientation(dx, dy);
-                    switch (orientation) {
-                        case 'r':   // right
-                            break;
-                        case 'l':   // left
-                            break;
-                        case 't':   // top
-                            ConstraintLayout layout1 = findViewById(R.id.constrain_whole);
-                            TranslateAnimation ta1 = new TranslateAnimation(0.0f, 0.0f, 0.0f, 300.0f);
-                            ta1.setDuration(500);
-                            ta1.setFillAfter(true);
-                            if (if_show) {
-                                layout1.startAnimation(ta1);
-                                if_show = false;
-                            }
-                            break;
-                        case 'b':   // bottom
-                            ConstraintLayout layout2 = findViewById(R.id.constrain_whole);
-                            TranslateAnimation ta2 = new TranslateAnimation(0.0f, 0.0f, 300.0f, 0.0f);
-                            ta2.setDuration(500);
-                            ta2.setFillAfter(true);
-                            if (!if_show) {
-                                layout2.startAnimation(ta2);
-                                if_show = true;
-                            }
-                            break;
-                    }
-                }
-                // if just a touch
-                else {
-                    ConstraintLayout layout2 = findViewById(R.id.constrain_whole);
-                    TranslateAnimation ta2 = new TranslateAnimation(0.0f, 0.0f, 300.0f, 0.0f);
-                    ta2.setDuration(500);
-                    ta2.setFillAfter(true);
-                    if (!if_show) {
-                        layout2.startAnimation(ta2);
-                        if_show = true;
-                    }
-                }
-                break;
-            default: break;
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
     private int getOrientation(float dx, float dy) {
         if (Math.abs(dx) > Math.abs(dy)) {
             // x axis movement
@@ -227,8 +164,15 @@ public class EntityActivity extends AppCompatActivity
         // separate title and subtitle
         String title = articleController.getArticle().getTitle();
         String[] title_list = title.split("\\|");
-        maintitle.setText(title_list[0]);
-        subtitle.setText(title_list[1]);
+        // check if the title is not consist of 2 parts
+        if (title_list.length == 2) {
+            maintitle.setText(title_list[0]);
+            subtitle.setText(title_list[1]);
+        }
+        else {
+            maintitle.setText(title);
+            subtitle.setText(null);
+        }
 
         // set content
         article.setText(articleController.getArticle().getContent());

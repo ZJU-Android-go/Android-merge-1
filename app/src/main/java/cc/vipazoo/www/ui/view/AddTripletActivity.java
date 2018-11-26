@@ -3,8 +3,6 @@ package cc.vipazoo.www.ui.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import cc.vipazoo.www.ui.R;
