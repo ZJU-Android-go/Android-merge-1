@@ -15,7 +15,6 @@ import cc.vipazoo.www.ui.model.Entities;
 import cc.vipazoo.www.ui.model.Triplet;
 import cc.vipazoo.www.ui.model.Triplets;
 import cc.vipazoo.www.ui.model.User;
-import cc.vipazoo.www.ui.view.ListViewActivity;
 
 public class FileRecordController {
     private Context context;
