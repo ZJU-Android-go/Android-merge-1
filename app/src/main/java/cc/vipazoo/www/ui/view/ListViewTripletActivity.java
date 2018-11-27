@@ -23,13 +23,24 @@ import java.util.List;
 import java.util.Map;
 
 import cc.vipazoo.www.ui.R;
+import cc.vipazoo.www.ui.model.Triplet;
+import cc.vipazoo.www.ui.model.Triplets;
 import cc.vipazoo.www.ui.model.User;
 
 public class ListViewTripletActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    static Triplets TRIPLET = new Triplets();
+
     private User user;
     private List<Map<String, String>> listData;
+
+    static HashMap<Integer, String> relationMap = new HashMap<Integer, String>() {
+        {
+            put(0, "任职");
+            put(1, "亲属");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +66,7 @@ public class ListViewTripletActivity extends AppCompatActivity
 
         ListView listView = findViewById(R.id.list_view_triplet);
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, listData,
-                R.layout.list_item_triplet, new String[]{"title", "description"}, new int[]{R.id.list_view_triplet_text1, R.id.list_view_triplet_text2});
+                R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation});
         listView.setAdapter(simpleAdapter);
 
         // register for menu
@@ -72,11 +83,13 @@ public class ListViewTripletActivity extends AppCompatActivity
     }
 
     private List<Map<String, String>> getData() {
+        ArrayList<Triplet> triplets = TRIPLET.getTriplets();
         List<Map<String, String>> listData = new ArrayList<>();
-        for (int i = 0; i < 20; ++i) {
+        for (Triplet t: triplets) {
             Map<String, String> map = new HashMap<>();
-            map.put("title", "test " + i);
-            map.put("description", "This is the description of the test" + i);
+            map.put("entity1", t.getLeft_entity());
+            map.put("entity2", t.getRight_entity());
+            map.put("relation", relationMap.get(t.getRelation_id()));
             listData.add(map);
         }
 

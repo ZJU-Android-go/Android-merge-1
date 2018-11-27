@@ -39,8 +39,6 @@ public class TripletActivity extends AppCompatActivity
     private ArrayList<Triplet> triplets;
     private int index = 0;
 
-    private HashMap<Integer, String> relationMap = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +59,6 @@ public class TripletActivity extends AppCompatActivity
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO NAV_TRIPLET");
 
-        relationMap.put(0, "任职");
-        relationMap.put(1, "亲属");
 ////////////////////////////////////////////////////////////////////////////////
 
         // get the first triplet
@@ -258,6 +254,8 @@ public class TripletActivity extends AppCompatActivity
             subtitle.setText(null);
         }
 
+        // set ListViewTripletActivity
+        ListViewTripletActivity.TRIPLET = tripletController.getTriplets();
         // set content
         article.setText(tripletController.getTriplets().getSent_ctx());
 
@@ -290,7 +288,7 @@ public class TripletActivity extends AppCompatActivity
         else {
             entity1.setText(triplets.get(index).getLeft_entity());
             entity2.setText(triplets.get(index).getRight_entity());
-            relation.setText(relationMap.get(triplets.get(index).getRelation_id()));
+            relation.setText(ListViewTripletActivity.relationMap.get(triplets.get(index).getRelation_id()));
             index++;
         }
     }
