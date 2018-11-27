@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import cc.vipazoo.www.ui.R;
+import cc.vipazoo.www.ui.controller.LoginController;
 import cc.vipazoo.www.ui.model.User;
 
 public class WelcomeActivity extends AppCompatActivity
@@ -49,6 +50,14 @@ public class WelcomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            LoginController loginController = new LoginController(user);
+            try{
+                loginController.logout();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
             super.onBackPressed();
         }
     }

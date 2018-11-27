@@ -59,6 +59,10 @@ public class LoginController {
         user.setEmail_address(email_address);
     }
 
+    public LoginController(User user)
+    {
+        this.user = user;
+    }
 
     public void login()
     {
