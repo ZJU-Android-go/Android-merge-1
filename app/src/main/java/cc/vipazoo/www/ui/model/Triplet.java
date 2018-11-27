@@ -54,6 +54,7 @@ public class Triplet {
     public void setRelation_end(int relation_end) {
         this.relation_end = relation_end;
     }
+
     public void setLeft_entity(String left_entity) {
         this.left_entity = left_entity;
     }

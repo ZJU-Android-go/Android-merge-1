@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/selection_entity_select"
-        android:title="标注为实体" />
+        android:id="@+id/selection_entity_entity"
+        android:title="添加为实体" />
+
 </menu>

@@ -15,8 +15,11 @@ import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.LoginController;
 
 public class LoginActivity extends AppCompatActivity {
+
     public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.view.LoginActivity.toMainActivity";
     private Context context = null;
+    private int try_times = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         while (loginController.ret_login == null) {
             try {
                 Thread.sleep(500);
+                try_times++;
                 Log.e("status", "SLEEP");
             }
             catch (Exception e) {
                 Log.e("status", "SLEEP WRONG");
+            }
+
+            // if try more than 5 times
+            if (try_times == 6) {
+                try_times = 0;
+                Toast.makeText(this, "登录超时", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 

@@ -50,12 +50,7 @@
         <activity
             android:name=".view.AddEntityActivity"
             android:label=""
-            android:theme="@style/Theme.AppCompat.Dialog">
-            <intent-filter>
-                <action android:name="add_entity_activity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".view.ListViewEntityActivity"
             android:label="My Entities"

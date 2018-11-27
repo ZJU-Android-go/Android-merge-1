@@ -10,13 +10,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.method.ScrollingMovementMethod;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import cc.vipazoo.www.ui.R;
@@ -60,8 +58,7 @@ public class EntityActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             TextView textView = findViewById(R.id.article_entity);
             textView.setTextIsSelectable(true);
-//            textView.setSelectAllOnFocus(true);
-            textView.setCustomSelectionActionModeCallback(callback_entity);
+
             callback_entity = new ActionMode.Callback2() {
                 @Override
                 public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -78,10 +75,13 @@ public class EntityActivity extends AppCompatActivity
                 @Override
                 public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
-                        case R.id.selection_entity_select:
-                            Intent intent = new Intent();
-                            intent.setAction("add_entity_activity");
-                            startActivity(intent);
+                        case R.id.selection_entity_entity:
+                            // ConstraintLayout add_entity = findViewById(R.id.constraint_layout_add_entity);
+                            Intent intent1 = new Intent(EntityActivity.this, AddEntityActivity.class);
+                            TextView content = findViewById(R.id.article_entity);
+                            String s = String.valueOf(content.getText().subSequence(content.getSelectionStart(), content.getSelectionEnd()));
+                            intent1.putExtra("add_entity_entity", s);
+                            startActivity(intent1);
                             break;
                         default:
                             return false;
@@ -95,6 +95,7 @@ public class EntityActivity extends AppCompatActivity
 
                 }
             };
+            textView.setCustomSelectionActionModeCallback(callback_entity);
         }
     }
 
@@ -215,7 +216,8 @@ public class EntityActivity extends AppCompatActivity
 
         // set content
         article.setText(articleController.getArticle().getContent());
-        article.setMovementMethod(ScrollingMovementMethod.getInstance());
+        // comment the following statement to enable the selection
+ //        article.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     // following gets a sentence and select entity and tag

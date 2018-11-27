@@ -8,10 +8,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +29,7 @@ public class ListViewTripletActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
+    private List<Map<String, String>> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +51,24 @@ public class ListViewTripletActivity extends AppCompatActivity
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO MY_TRIPLET");
 ////////////////////////////////////////////////////////////////////////////////
+        listData = getData();
 
         ListView listView = findViewById(R.id.list_view_triplet);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, listData,
                 R.layout.list_item_triplet, new String[]{"title", "description"}, new int[]{R.id.list_view_triplet_text1, R.id.list_view_triplet_text2});
         listView.setAdapter(simpleAdapter);
+
+        // register for menu
+        registerForContextMenu(listView);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(ListViewTripletActivity.this, "长点击了"+i+"项", Toast.LENGTH_SHORT).show();
+                // return false to continue the message
+                return false;
+            }
+        });
     }
 
     private List<Map<String, String>> getData() {
@@ -64,6 +82,26 @@ public class ListViewTripletActivity extends AppCompatActivity
 
         return listData;
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.selection_show, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.selection_show_edit:
+                break;
+            case R.id.selection_show_remove:
+                break;
+            default: break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout_view_triplet);
