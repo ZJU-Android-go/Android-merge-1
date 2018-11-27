@@ -174,14 +174,14 @@ public class ListViewTripletActivity extends AppCompatActivity
         uploadController.setUser(user);
         try{
             Log.e("Before uploadEntities", "OK");
-            uploadController.upload_entities();
+            uploadController.upload_triplets();
             Log.e("After uploadEntities", "OK");
-            Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
         }
         catch(Exception e)
         {
             Log.e("uploadController", "ERROR");
-            Toast.makeText(this, "Something wrong happens", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
 
         }
     }

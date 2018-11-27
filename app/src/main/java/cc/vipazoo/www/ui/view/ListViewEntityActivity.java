@@ -129,11 +129,13 @@ public class ListViewEntityActivity extends AppCompatActivity
             Log.e("Before uploadEntities", "OK");
             uploadController.upload_entities();
             Log.e("After uploadEntities", "OK");
+            Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
+
         }
         catch(Exception e)
         {
             Log.e("uploadController", "ERROR");
-            Toast.makeText(this, "Something wrong happens", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Triplets {
     private String doc_id;
-    private int send_id;
+    private int sent_id;
     private String title;
     private String sent_ctx;
     private ArrayList<Triplet> triples;
 
     public Triplets() {
         doc_id = null;
-        send_id = 0;
+        sent_id = 0;
         title = null;
         sent_ctx = null;
         triples = new ArrayList<>();
@@ -21,8 +21,8 @@ public class Triplets {
         this.doc_id = doc_id;
     }
 
-    public void setSend_id(int send_id) {
-        this.send_id = send_id;
+    public void setSent_id(int send_id) {
+        this.sent_id = sent_id;
     }
 
     public void setTitle(String title) {
@@ -41,8 +41,8 @@ public class Triplets {
         return doc_id;
     }
 
-    public int getSend_id() {
-        return send_id;
+    public int getSent_id() {
+        return sent_id;
     }
 
     public String getTitle() {
