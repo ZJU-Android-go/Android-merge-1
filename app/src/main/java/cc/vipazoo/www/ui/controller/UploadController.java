@@ -32,15 +32,15 @@ public class UploadController
     {
         this.user = user;
     }
-    UploadController(Entities entities)
+    public UploadController(Entities entities)
     {
         this.entities = entities;
     }
-    UploadController(Triplets triplets)
+    public UploadController(Triplets triplets)
     {
         this.triplets = triplets;
     }
-    UploadController(Entities entities, Triplets triplets)
+    public UploadController(Entities entities, Triplets triplets)
     {
         this.entities = entities;
         this.triplets = triplets;

@@ -22,12 +22,15 @@ import java.util.Map;
 
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.UploadController;
+import cc.vipazoo.www.ui.model.Entities;
 import cc.vipazoo.www.ui.model.User;
 
 public class ListViewEntityActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
+
+    static Entities ENTITIES = new Entities();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +123,7 @@ public class ListViewEntityActivity extends AppCompatActivity
     }
 
     public void uploadEntities(View view) {
-        UploadController uploadController = new UploadController();
+        UploadController uploadController = new UploadController(ENTITIES);
         uploadController.setUser(user);
         try{
             Log.e("Before uploadEntities", "OK");

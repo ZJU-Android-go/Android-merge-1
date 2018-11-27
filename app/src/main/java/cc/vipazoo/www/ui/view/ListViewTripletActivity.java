@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.vipazoo.www.ui.R;
+import cc.vipazoo.www.ui.controller.UploadController;
 import cc.vipazoo.www.ui.model.Triplet;
 import cc.vipazoo.www.ui.model.Triplets;
 import cc.vipazoo.www.ui.model.User;
@@ -168,6 +170,19 @@ public class ListViewTripletActivity extends AppCompatActivity
     }
 
     public void uploadTriplets(View view) {
+        UploadController uploadController = new UploadController(TRIPLET);
+        uploadController.setUser(user);
+        try{
+            Log.e("Before uploadEntities", "OK");
+            uploadController.upload_entities();
+            Log.e("After uploadEntities", "OK");
+            Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
+        }
+        catch(Exception e)
+        {
+            Log.e("uploadController", "ERROR");
+            Toast.makeText(this, "Something wrong happens", Toast.LENGTH_SHORT).show();
 
+        }
     }
 }
