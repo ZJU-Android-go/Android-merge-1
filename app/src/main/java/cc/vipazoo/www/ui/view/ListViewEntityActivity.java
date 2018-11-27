@@ -9,8 +9,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -23,12 +26,14 @@ import java.util.Map;
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.UploadController;
 import cc.vipazoo.www.ui.model.Entities;
+import cc.vipazoo.www.ui.model.Entity;
 import cc.vipazoo.www.ui.model.User;
 
 public class ListViewEntityActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
+    private List<Map<String, String>> listData;
 
     static Entities ENTITIES = new Entities();
 
@@ -51,24 +56,58 @@ public class ListViewEntityActivity extends AppCompatActivity
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO MY_ENTITY");
 ////////////////////////////////////////////////////////////////////////////////
+        listData = getData();
 
         ListView listView = findViewById(R.id.list_view_entity);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
-                R.layout.list_item_entity, new String[]{"title", "description"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, listData,
+                R.layout.list_item_entity, new String[]{"entity", "tag"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
         listView.setAdapter(simpleAdapter);
+
+        // register for menu
+        registerForContextMenu(listView);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // return false to continue the message
+                return false;
+            }
+        });
+
     }
 
     private List<Map<String, String>> getData() {
+        ArrayList<Entity> entities = ENTITIES.getEntities();
         List<Map<String, String>> listData = new ArrayList<>();
-        for (int i = 0; i < 20; ++i) {
+        for (Entity e : entities) {
             Map<String, String> map = new HashMap<>();
-            map.put("title", "test " + i);
-            map.put("description", "This is the description of the test" + i);
+            map.put("entity", e.getName());
+            map.put("tag", e.getTag());
             listData.add(map);
         }
 
         return listData;
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.selection_show, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.selection_show_edit:
+                break;
+            case R.id.selection_show_remove:
+                break;
+            default: break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
 
     @Override
     public void onBackPressed() {

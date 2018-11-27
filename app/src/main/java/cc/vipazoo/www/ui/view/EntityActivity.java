@@ -2,7 +2,6 @@ package cc.vipazoo.www.ui.view;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,18 +13,18 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.ArticleController;
+import cc.vipazoo.www.ui.model.Entities;
 import cc.vipazoo.www.ui.model.User;
 
 public class EntityActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
-    private ActionMode.Callback2 callback_entity;
+    private ActionMode.Callback callback_entity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +54,15 @@ public class EntityActivity extends AppCompatActivity
 
         // required by my teammate, to deal with text
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TextView textView = findViewById(R.id.article_entity);
             textView.setTextIsSelectable(true);
 
-            callback_entity = new ActionMode.Callback2() {
+            callback_entity = new ActionMode.Callback() {
                 @Override
                 public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
                     MenuInflater inflater = actionMode.getMenuInflater();
-                    inflater.inflate(R.menu.selection_entity, menu);
+                    inflater.inflate(R.menu.selection_entity_triplet, menu);
                     return true;
                 }
 
@@ -75,13 +74,18 @@ public class EntityActivity extends AppCompatActivity
                 @Override
                 public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
-                        case R.id.selection_entity_entity:
+                        case R.id.selection_entity:
                             // ConstraintLayout add_entity = findViewById(R.id.constraint_layout_add_entity);
                             Intent intent1 = new Intent(EntityActivity.this, AddEntityActivity.class);
                             TextView content = findViewById(R.id.article_entity);
-                            String s = String.valueOf(content.getText().subSequence(content.getSelectionStart(), content.getSelectionEnd()));
+                            int start = content.getSelectionStart();
+                            int end = content.getSelectionEnd();
+                            String s = String.valueOf(content.getText().subSequence(start, end));
                             intent1.putExtra("add_entity_entity", s);
+                            intent1.putExtra("add_entity_start", start);
+                            intent1.putExtra("add_entity_end", end);
                             startActivity(intent1);
+                            content.clearFocus();
                             break;
                         default:
                             return false;
@@ -92,7 +96,6 @@ public class EntityActivity extends AppCompatActivity
 
                 @Override
                 public void onDestroyActionMode(ActionMode actionMode) {
-
                 }
             };
             textView.setCustomSelectionActionModeCallback(callback_entity);
@@ -201,6 +204,7 @@ public class EntityActivity extends AppCompatActivity
             }
         }
 
+        ListViewEntityActivity.ENTITIES = new Entities();
         // separate title and subtitle
         String title = articleController.getArticle().getTitle();
         String[] title_list = title.split("\\|");

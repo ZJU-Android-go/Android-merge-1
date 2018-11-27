@@ -1,6 +1,7 @@
 package cc.vipazoo.www.ui.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,7 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,10 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cc.vipazoo.www.ui.R;
-import cc.vipazoo.www.ui.controller.ArticleController;
 import cc.vipazoo.www.ui.controller.TripletController;
 import cc.vipazoo.www.ui.model.Triplet;
 import cc.vipazoo.www.ui.model.User;
@@ -38,6 +39,8 @@ public class TripletActivity extends AppCompatActivity
 
     private ArrayList<Triplet> triplets;
     private int index = 0;
+
+    private ActionMode.Callback callback_entity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,54 @@ public class TripletActivity extends AppCompatActivity
 
         // get the first triplet
         set_triplet();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TextView textView = findViewById(R.id.article_triplet);
+            textView.setTextIsSelectable(true);
+
+            callback_entity = new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                    MenuInflater inflater = actionMode.getMenuInflater();
+                    inflater.inflate(R.menu.selection_entity_triplet, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.selection_entity:
+                            // ConstraintLayout add_entity = findViewById(R.id.constraint_layout_add_entity);
+                            Intent intent1 = new Intent(TripletActivity.this, AddTripletActivity.class);
+                            TextView content = findViewById(R.id.article_triplet);
+                            int start = content.getSelectionStart();
+                            int end = content.getSelectionEnd();
+                            String s = String.valueOf(content.getText().subSequence(start, end));
+                            intent1.putExtra("add_triplet_entity", s);
+                            intent1.putExtra("add_triplet_start", start);
+                            intent1.putExtra("add_triplet_end", end);
+                            startActivity(intent1);
+                            content.clearFocus();
+                            break;
+                        default:
+                            return false;
+                    }
+
+                    return true;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode actionMode) {
+                    TextView content = findViewById(R.id.article_triplet);
+                }
+            };
+            textView.setCustomSelectionActionModeCallback(callback_entity);
+        }
 
     }
 

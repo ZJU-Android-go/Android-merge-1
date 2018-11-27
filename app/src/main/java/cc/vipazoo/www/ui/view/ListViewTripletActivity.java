@@ -77,7 +77,6 @@ public class ListViewTripletActivity extends AppCompatActivity
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(ListViewTripletActivity.this, "长点击了"+i+"项", Toast.LENGTH_SHORT).show();
                 // return false to continue the message
                 return false;
             }

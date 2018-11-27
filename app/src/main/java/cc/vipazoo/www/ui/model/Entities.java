@@ -7,6 +7,12 @@ public class Entities {
     private int send_id;
     private ArrayList<Entity> entities;
 
+    public Entities() {
+        doc_id = null;
+        send_id = 0;
+        entities = new ArrayList<>();
+    }
+
     public void setDoc_id(String doc_id) {
         this.doc_id = doc_id;
     }
