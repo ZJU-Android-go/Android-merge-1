@@ -21,6 +21,8 @@ public class UploadController
     private Triplets triplets;
     static Converter conv = new Converter();
     private static final OkHttpClient connection = new OkHttpClient();
+    public String upload_ret;
+
     public User getuser()
 
     {
@@ -68,10 +70,10 @@ public class UploadController
                     Web_Message msg;
                     msg = gson.fromJson(js, Web_Message.class);
                     final String ret = msg.getmsg();
+                    upload_ret = ret;
                     switch(ret) {
                         case("尚未登录"):
                         {
-
                         }
                         case("数据不得为空"):
                         {
@@ -124,6 +126,7 @@ public class UploadController
                     Web_Message msg;
                     msg = gson.fromJson(js, Web_Message.class);
                     final String ret = msg.getmsg();
+                    upload_ret = ret;
                     switch(ret) {
                         case("尚未登录"):
                         {
