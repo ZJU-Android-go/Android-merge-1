@@ -12,10 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.ArticleController;
@@ -36,6 +39,8 @@ public class TripletActivity extends AppCompatActivity
     private ArrayList<Triplet> triplets;
     private int index = 0;
 
+    private HashMap<Integer, String> relationMap = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,9 @@ public class TripletActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO NAV_TRIPLET");
+
+        relationMap.put(0, "任职");
+        relationMap.put(1, "亲属");
 ////////////////////////////////////////////////////////////////////////////////
 
         // get the first triplet
@@ -222,9 +230,6 @@ public class TripletActivity extends AppCompatActivity
         TextView maintitle = findViewById(R.id.maintitle);
         TextView subtitle = findViewById(R.id.subtitle);
         TextView article = findViewById(R.id.article_triplet);
-        TextView entity1 = findViewById(R.id.entity1);
-        TextView entity2 = findViewById(R.id.entity2);
-        TextView relation = findViewById(R.id.relation);
 
         // get the article
         tripletController.getTripletsFromServer();
@@ -257,9 +262,36 @@ public class TripletActivity extends AppCompatActivity
         article.setText(tripletController.getTriplets().getSent_ctx());
 
         // fill constraint whole
+        index = 0;
         triplets = tripletController.getTriplets().getTriplets();
-        entity1.setText(triplets.get(index).getLeft_entity());
-        entity2.setText(triplets.get(index).getRight_entity());
-        relation.setText(triplets.get(index).getRelation_id() + " " + triplets.get(index).getStatus());
+        whole_next();
+    }
+
+    public void TripletRight(View view) {
+        triplets.get(index - 1).setStatus(1);
+        whole_next();
+    }
+
+    public void TripletWrong(View view) {
+        triplets.get(index - 1).setStatus(-1);
+        whole_next();
+    }
+
+    private void whole_next() {
+        TextView entity1 = findViewById(R.id.entity1);
+        TextView entity2 = findViewById(R.id.entity2);
+        TextView relation = findViewById(R.id.relation);
+        if (index >= triplets.size()) {
+            Toast.makeText(this, "标注完成", Toast.LENGTH_SHORT).show();
+            entity1.setText(null);
+            entity2.setText(null);
+            relation.setText(null);
+        }
+        else {
+            entity1.setText(triplets.get(index).getLeft_entity());
+            entity2.setText(triplets.get(index).getRight_entity());
+            relation.setText(relationMap.get(triplets.get(index).getRelation_id()));
+            index++;
+        }
     }
 }
