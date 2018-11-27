@@ -36,6 +36,20 @@
             android:layout_weight="1"
             android:drawSelectorOnTop="false"/>
 
+        <Button
+            android:id="@+id/buttonUploadEntity"
+            android:layout_width="342dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="500dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bt_shape"
+            android:elevation="0dp"
+            android:onClick="uploadEntities"
+            android:text="Upload"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp" />
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

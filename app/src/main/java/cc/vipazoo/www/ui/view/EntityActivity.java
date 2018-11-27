@@ -151,13 +151,21 @@ public class EntityActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.my_triplet) {
-
+            Intent intent = new Intent(this, ListViewTripletActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TO MY_TRIPLET", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if (id == R.id.nav_entity) {
-
+            // Do nothing
         }
         else if (id == R.id.my_entity) {
-            startActivity(new Intent(this, ListViewEntityActivity.class));
+            Intent intent = new Intent(this, ListViewEntityActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TO MY_ENTITY", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
 

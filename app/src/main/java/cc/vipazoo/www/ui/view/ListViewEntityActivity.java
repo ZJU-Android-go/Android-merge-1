@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -87,10 +88,18 @@ public class ListViewEntityActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.my_triplet) {
-
+            Intent intent = new Intent(this, ListViewTripletActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TO MY_TRIPLET", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if (id == R.id.nav_entity) {
-
+            Intent intent = new Intent(this, EntityActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TO NAV_ENTITY", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if (id == R.id.my_entity) {
             // DO nothing
@@ -107,4 +116,7 @@ public class ListViewEntityActivity extends AppCompatActivity
         return true;
     }
 
+    public void uploadEntities(View view) {
+
+    }
 }

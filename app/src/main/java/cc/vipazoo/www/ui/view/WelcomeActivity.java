@@ -89,7 +89,11 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.my_triplet) {
-
+            Intent intent = new Intent(this, ListViewTripletActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TO MY_TRIPLET", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if (id == R.id.nav_entity) {
             Intent intent = new Intent(this, EntityActivity.class);
