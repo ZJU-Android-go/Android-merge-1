@@ -8,10 +8,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.vipazoo.www.ui.R;
+import cc.vipazoo.www.ui.controller.UploadController;
 import cc.vipazoo.www.ui.model.User;
 
 public class ListViewEntityActivity extends AppCompatActivity
@@ -117,6 +120,18 @@ public class ListViewEntityActivity extends AppCompatActivity
     }
 
     public void uploadEntities(View view) {
+        UploadController uploadController = new UploadController();
+        uploadController.setUser(user);
+        try{
+            Log.e("Before uploadEntities", "OK");
+            uploadController.upload_entities();
+            Log.e("After uploadEntities", "OK");
+        }
+        catch(Exception e)
+        {
+            Log.e("uploadController", "ERROR");
+            Toast.makeText(this, "Something wrong happens", Toast.LENGTH_SHORT).show();
 
+        }
     }
 }

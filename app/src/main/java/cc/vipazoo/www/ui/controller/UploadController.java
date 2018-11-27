@@ -43,94 +43,115 @@ public class UploadController
         this.entities = entities;
         this.triplets = triplets;
     }
-    public int upload_entities() throws Exception
+    public void upload_entities() throws Exception
     {
-        Gson gson = new Gson();
-        String js = gson.toJson(entities);
-        FormBody formbody = new FormBody.Builder()
-                .add("entities", js)
-                .add("token", user.gettoken())
-                .build();
-        Request request = new Request.Builder()
-                .url("http://10.15.82.223:9090/app_get_data/app_upload_entity")
-                .post(formbody)
-                .build();
-        Response response = connection.newCall(request).execute();
-        if(!response.isSuccessful())
-        {
-            throw new IOException("Unexpected code" + response);
-        }
-        js = new String(conv.unicodeToUtf8(response.body().string()));
-        Web_Message msg;
-        msg = gson.fromJson(js, Web_Message.class);
-        final String ret = msg.getmsg();
-        switch(ret) {
-            case("尚未登录"):
-            {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Gson gson = new Gson();
+                    String js = gson.toJson(entities);
+                    FormBody formbody = new FormBody.Builder()
+                            .add("entities", js)
+                            .add("token", user.gettoken())
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://10.15.82.223:9090/app_get_data/app_upload_entity")
+                            .post(formbody)
+                            .build();
+                    Response response = connection.newCall(request).execute();
+                    if(!response.isSuccessful())
+                    {
+                        throw new IOException("Unexpected code" + response);
+                    }
+                    js = new String(conv.unicodeToUtf8(response.body().string()));
+                    Web_Message msg;
+                    msg = gson.fromJson(js, Web_Message.class);
+                    final String ret = msg.getmsg();
+                    switch(ret) {
+                        case("尚未登录"):
+                        {
 
-            }
-            case("数据不得为空"):
-            {
+                        }
+                        case("数据不得为空"):
+                        {
 
-            }
-            case("数据非Json格式"):
-            {
+                        }
+                        case("数据非Json格式"):
+                        {
 
-            }
-            case("上传成功"):
-            {
+                        }
+                        case("上传成功"):
+                        {
 
-            }
-            default:
-            {
+                        }
+                        default:
+                        {
 
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-        }
-        return 1;
+        }).start();
+
     }
-    public int upload_triplets() throws Exception
+    public void upload_triplets() throws Exception
     {
-        Gson gson = new Gson();
-        String js = gson.toJson(triplets);
-        FormBody formbody = new FormBody.Builder()
-                .add("triplets", js)
-                .add("token", user.gettoken())
-                .build();
-        Request request = new Request.Builder()
-                .url("http://10.15.82.223:9090/app_get_data/app_upload_triple")
-                .post(formbody)
-                .build();
-        Response response = connection.newCall(request).execute();
-        if(!response.isSuccessful())
-        {
-            throw new IOException("Unexpected code" + response);
-        }
-        js = new String(conv.unicodeToUtf8(response.body().string()));
-        Web_Message msg;
-        msg = gson.fromJson(js, Web_Message.class);
-        final String ret = msg.getmsg();
-        switch(ret) {
-            case("尚未登录"):
-            {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Gson gson = new Gson();
+                    String js = gson.toJson(triplets);
+                    FormBody formbody = new FormBody.Builder()
+                            .add("triples", js)
+                            .add("token", user.gettoken())
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://10.15.82.223:9090/app_get_data/app_upload_triple")
+                            .post(formbody)
+                            .build();
+                    Response response = connection.newCall(request).execute();
+                    if(!response.isSuccessful())
+                    {
+                        throw new IOException("Unexpected code" + response);
+                    }
+                    js = new String(conv.unicodeToUtf8(response.body().string()));
+                    Web_Message msg;
+                    msg = gson.fromJson(js, Web_Message.class);
+                    final String ret = msg.getmsg();
+                    switch(ret) {
+                        case("尚未登录"):
+                        {
 
-            }
-            case("数据不得为空"):
-            {
+                        }
+                        case("数据不得为空"):
+                        {
 
-            }
-            case("数据非Json格式"):
-            {
+                        }
+                        case("数据非Json格式"):
+                        {
 
-            }
-            case("上传成功"):
-            {
+                        }
+                        case("上传成功"):
+                        {
 
-            }
-            default:
-            {
+                        }
+                        default:
+                        {
 
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-        }
-        return 1;
+        }).start();
     }
 }
