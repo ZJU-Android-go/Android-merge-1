@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.google.gson.Gson;
+
+import cc.vipazoo.www.ui.model.Article;
 import cc.vipazoo.www.ui.model.Converter;
 import cc.vipazoo.www.ui.model.Triplet;
 import cc.vipazoo.www.ui.model.Triplets;
@@ -24,7 +26,7 @@ import okhttp3.Response;
 public class TripletController {
     private OkHttpClient mOkHttpClient;     //okHttpClient 实例
     private Handler okHttpHandler;      //全局处理子线程和M主线程通信
-    private static volatile TripletController mInstance;//单利引用
+    private static volatile TripletController mInstance;//单例引用
 
     User user;
     static Converter conv = new Converter();
@@ -78,8 +80,10 @@ public class TripletController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String s = response.body().string();
-                    Log.e("TAG", "response --> " + s);
+                    Gson gson = new Gson();
+                    String js = new String(conv.unicodeToUtf8(response.body().string()));
+                    triplet = gson.fromJson(js, Triplets.class);
+                    Log.e("TAG", "response --> " + js);
                 }
                 else {
                     Log.e("TAG", "WRONG!");
