@@ -19,7 +19,6 @@ public class AddEntityActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         pre = intent.getStringExtra("add_entity_entity");
-        pre = (String)intent.getSerializableExtra("add_entity_entity");
 
         EditText editText = findViewById(R.id.AddEntityEntity);
         editText.setText(pre);

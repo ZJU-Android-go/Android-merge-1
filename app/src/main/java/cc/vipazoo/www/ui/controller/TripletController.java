@@ -30,14 +30,18 @@ public class TripletController {
 
     User user;
     static Converter conv = new Converter();
-    Triplets triplet;
+    private Triplets triplet = new Triplets();
 
     public TripletController(User user)
     {
         this.user = user;
+        mOkHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS).build();
     }
 
-    public TripletController(Context context) {
+    private TripletController(Context context) {
         mOkHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -59,8 +63,12 @@ public class TripletController {
         return inst;
     }
 
+    public Triplets getTriplets() {
+        return triplet;
+    }
+
     // okHttp POST 异步请求
-    public boolean getTriplets()
+    public void getTripletsFromServer()
     {
         Gson gson = new Gson();
         FormBody formbody = new FormBody.Builder()
@@ -90,6 +98,5 @@ public class TripletController {
                 }
             }
         });
-        return true;
     }
 }

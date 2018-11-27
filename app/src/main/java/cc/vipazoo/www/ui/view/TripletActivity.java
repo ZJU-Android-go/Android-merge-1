@@ -13,9 +13,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.animation.TranslateAnimation;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import cc.vipazoo.www.ui.R;
+import cc.vipazoo.www.ui.controller.ArticleController;
 import cc.vipazoo.www.ui.controller.TripletController;
+import cc.vipazoo.www.ui.model.Triplet;
 import cc.vipazoo.www.ui.model.User;
 
 public class TripletActivity extends AppCompatActivity
@@ -27,6 +32,9 @@ public class TripletActivity extends AppCompatActivity
     private float downY;
     // if the bottom widget can be seen
     private boolean if_show = true;
+
+    private ArrayList<Triplet> triplets;
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +219,47 @@ public class TripletActivity extends AppCompatActivity
 
     private void set_triplet() {
         TripletController tripletController = new TripletController(user);
-//        tripletController.getTriplets();
+        TextView maintitle = findViewById(R.id.maintitle);
+        TextView subtitle = findViewById(R.id.subtitle);
+        TextView article = findViewById(R.id.article_triplet);
+        TextView entity1 = findViewById(R.id.entity1);
+        TextView entity2 = findViewById(R.id.entity2);
+        TextView relation = findViewById(R.id.relation);
+
+        // get the article
+        tripletController.getTripletsFromServer();
+
+        // wait until the server returns
+        while (tripletController.getTriplets().getTitle() == null) {
+            try {
+                article.setText(null);
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // separate title and subtitle
+        String title = tripletController.getTriplets().getTitle();
+        String[] title_list = title.split("\\|");
+        // check if the title is not consist of 2 parts
+        if (title_list.length == 2) {
+            maintitle.setText(title_list[0]);
+            subtitle.setText(title_list[1]);
+        }
+        else {
+            maintitle.setText(title);
+            subtitle.setText(null);
+        }
+
+        // set content
+        article.setText(tripletController.getTriplets().getSent_ctx());
+
+        // fill constraint whole
+        triplets = tripletController.getTriplets().getTriplets();
+        entity1.setText(triplets.get(index).getLeft_entity());
+        entity2.setText(triplets.get(index).getRight_entity());
+        relation.setText(triplets.get(index).getRelation_id() + " " + triplets.get(index).getStatus());
     }
 }

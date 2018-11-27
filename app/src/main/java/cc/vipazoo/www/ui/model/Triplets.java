@@ -9,6 +9,14 @@ public class Triplets {
     private String sent_ctx;
     private ArrayList<Triplet> triplets;
 
+    public Triplets() {
+        doc_id = null;
+        send_id = 0;
+        title = null;
+        sent_ctx = null;
+        triplets = new ArrayList<>();
+    }
+
     public void setDoc_id(String doc_id) {
         this.doc_id = doc_id;
     }
