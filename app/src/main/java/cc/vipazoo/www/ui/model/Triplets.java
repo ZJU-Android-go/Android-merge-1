@@ -7,14 +7,14 @@ public class Triplets {
     private int send_id;
     private String title;
     private String sent_ctx;
-    private ArrayList<Triplet> triplets;
+    private ArrayList<Triplet> triples;
 
     public Triplets() {
         doc_id = null;
         send_id = 0;
         title = null;
         sent_ctx = null;
-        triplets = new ArrayList<>();
+        triples = new ArrayList<>();
     }
 
     public void setDoc_id(String doc_id) {
@@ -34,7 +34,7 @@ public class Triplets {
     }
 
     public void setTriplets(ArrayList<Triplet> triplets) {
-        this.triplets = triplets;
+        this.triples = triplets;
     }
 
     public String getDoc_id() {
@@ -54,6 +54,6 @@ public class Triplets {
     }
 
     public ArrayList<Triplet> getTriplets() {
-        return triplets;
+        return triples;
     }
 }

@@ -13,7 +13,7 @@ public class Triplet {
     private String left_entity;
     private String right_entity;
     private int relation_id;
-    private String status;
+    private int status;
     public Triplet()
     {
         id = null;
@@ -26,7 +26,7 @@ public class Triplet {
         relation_id = 0;
         left_entity = null;
         right_entity = null;
-        status = null;
+        status = 0;
     }
 
     public void setId(String id) {
@@ -85,7 +85,7 @@ public class Triplet {
         this.relation_id = relation_id;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -129,7 +129,7 @@ public class Triplet {
         return relation_id;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 }
