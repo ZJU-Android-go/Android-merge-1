@@ -155,6 +155,8 @@ public class EntityActivity extends AppCompatActivity
         }
         else if (id == R.id.action_add_relation) {
             Intent intent = new Intent(this, AddEntityActivity.class);
+            TextView content = findViewById(R.id.article_entity);
+            intent.putExtra("add_entity_article", String.valueOf(content.getText()));
             startActivity(intent);
             return true;
         }

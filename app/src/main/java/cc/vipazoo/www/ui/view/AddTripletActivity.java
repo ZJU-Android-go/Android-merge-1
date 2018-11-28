@@ -10,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,47 +85,46 @@ public class AddTripletActivity extends AppCompatActivity {
 
             EditText editText = findViewById(R.id.AddTripletEntity1);
             editText.setText(pre);
-
         }
+
+        Spinner spinner = findViewById(R.id.AddTripletRelation);
+        String[] tags = {"亲属", "任职"};
+        spinner.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, tags));
+
     }
 
     public void AddTriplet(View view) {
         EditText entity1 = findViewById(R.id.AddTripletEntity1);
         EditText entity2 = findViewById(R.id.AddTripletEntity2);
-        EditText relation = findViewById(R.id.AddTripletRelation);
+        Spinner relation = findViewById(R.id.AddTripletRelation);
         String sentity1 = entity1.getText().toString();
         String sentity2 = entity2.getText().toString();
-        String srelation = relation.getText().toString();
+        String srelation = relation.getSelectedItem().toString();
 
         if (!ListViewTripletActivity.relationMap.containsValue(srelation)) {
-            Toast.makeText(this, "关系不存在", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "关系不存在", Toast.LENGTH_SHORT).show();
             return;
         }
         else {
             // HERE to add the Relation to the other activity
-            if (pre == null) {
+            Triplet t = new Triplet();
+            t.setLeft_e_start(start);
+            t.setLeft_e_end(end);
+            t.setLeft_entity(sentity1);
+            // set right position here
 
-            }
-            else {
-                Triplet t = new Triplet();
-                t.setLeft_e_start(start);
-                t.setLeft_e_end(end);
-                t.setLeft_entity(sentity1);
-                // set right position here
+            t.setRight_entity(sentity2);
 
-                t.setRight_entity(sentity2);
-
-                for (int i : ListViewTripletActivity.relationMap.keySet()) {
-                    if (ListViewTripletActivity.relationMap.get(i).equals(srelation)) {
-                        t.setRelation_id(i);
-                        break;
-                    }
+            for (int i : ListViewTripletActivity.relationMap.keySet()) {
+                if (ListViewTripletActivity.relationMap.get(i).equals(srelation)) {
+                    t.setRelation_id(i);
+                    break;
                 }
-
-                Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT);
-                ListViewTripletActivity.TRIPLET.getTriplets().add(t);
             }
-            finish();
+
+            Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT);
+            ListViewTripletActivity.TRIPLET.getTriplets().add(t);
         }
+        finish();
     }
 }

@@ -46,7 +46,7 @@ public class AddEntityActivity extends AppCompatActivity {
         // HERE to add the Relation to the other activity
         start = article.indexOf(sentity);
         while (start == -1) {
-            Toast.makeText(this, "未找到实体", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "未找到实体", Toast.LENGTH_SHORT).show();
             return;
         }
         end = start + sentity.length();
