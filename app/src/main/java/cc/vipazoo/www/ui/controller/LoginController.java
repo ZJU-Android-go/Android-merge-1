@@ -110,45 +110,58 @@ public class LoginController {
         }).start();
     }
 
-    public void logout() throws  Exception
+    public void logout()
     {
-        Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
-        @Override
-        public boolean shouldSkipField(FieldAttributes f) {
-            return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run(){
+                try{
+                    Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+                        @Override
+                        public boolean shouldSkipField(FieldAttributes f) {
+                            return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
+                        }
 
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-            return false;
-        }
-    }).create();
-        FormBody formbody = new FormBody.Builder()
-                .add("token", user.gettoken())
-                .build();
-        Request request = new Request.Builder()
-                .url("http://10.15.82.223:9090/app_get_data/app_logout")
-                .post(formbody)
-                .build();
-        Response response = connection.newCall(request).execute();
-        if(!response.isSuccessful())
-        {
-            throw new IOException("Unexpected code" + response);
-        }
-        String js = new String(conv.unicodeToUtf8(response.body().string()));
-        Web_Message msg;
-        msg = gson.fromJson(js, Web_Message.class);
-        final String ret = msg.getmsg();
-        switch(ret) {
-            case("登出成功"):
-            {
-               // System.out.println("Successfully logout");
-            }
-            default:
-            {
+                        @Override
+                        public boolean shouldSkipClass(Class<?> clazz) {
+                            return false;
+                        }
+                    }).create();
+                    FormBody formbody = new FormBody.Builder()
+                            .add("token", user.gettoken())
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://10.15.82.223:9090/app_get_data/app_logout")
+                            .post(formbody)
+                            .build();
+                    Response response = connection.newCall(request).execute();
+                    if(!response.isSuccessful())
+                    {
+                        throw new IOException("Unexpected code" + response);
+                    }
+                    String js = new String(conv.unicodeToUtf8(response.body().string()));
+                    Web_Message msg;
+                    msg = gson.fromJson(js, Web_Message.class);
+                    final String ret = msg.getmsg();
+                    switch(ret) {
+                        case("登出成功"):
+                        {
+                            // System.out.println("Successfully logout");
+                        }
+                        default:
+                        {
+
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
 
             }
-        }
+        }).start();
+
     }
     public String register() throws  Exception
     {
