@@ -34,10 +34,12 @@ public class ListViewEntityActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
-    private List<Map<String, String>> listData;
+//    private List<Map<String, String>> listData;
 
     static Entities ENTITIES = new Entities();
     static Article ARTICLE = new Article();
+
+    private int item_selected = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,9 @@ public class ListViewEntityActivity extends AppCompatActivity
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO MY_ENTITY");
 ////////////////////////////////////////////////////////////////////////////////
-        listData = getData();
 
         ListView listView = findViewById(R.id.list_view_entity);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, listData,
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
                 R.layout.list_item_entity, new String[]{"entity", "tag"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
         listView.setAdapter(simpleAdapter);
 
@@ -72,6 +73,7 @@ public class ListViewEntityActivity extends AppCompatActivity
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // return false to continue the message
+                item_selected = i;
                 return false;
             }
         });
@@ -104,6 +106,11 @@ public class ListViewEntityActivity extends AppCompatActivity
             case R.id.selection_show_edit:
                 break;
             case R.id.selection_show_remove:
+                ENTITIES.getEntities().remove(item_selected);
+                ListView listView = findViewById(R.id.list_view_entity);
+                SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
+                        R.layout.list_item_entity, new String[]{"entity", "tag"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
+                listView.setAdapter(simpleAdapter);
                 break;
             default: break;
         }

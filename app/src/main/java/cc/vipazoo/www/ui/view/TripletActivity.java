@@ -128,7 +128,9 @@ public class TripletActivity extends AppCompatActivity
                             // get the sentence
                             int sentence_start = String.valueOf(content.getText()).lastIndexOf("。", start);
                             int sentence_end = String.valueOf(content.getText()).indexOf("。", end);
-                            String sentence = String.valueOf(content.getText().subSequence(sentence_start, sentence_end));
+                            String sentence = String.valueOf(content.getText().subSequence(
+                                    (sentence_start == -1 ? 0 : sentence_start + 1),
+                                    (sentence_end == -1 ? content.getText().length() : sentence_end + 1)));
                             intent1.putExtra("add_triplet_sentence", sentence);
                             startActivity(intent1);
                             content.clearFocus();
@@ -364,7 +366,7 @@ public class TripletActivity extends AppCompatActivity
         TextView entity1 = findViewById(R.id.entity1);
         TextView entity2 = findViewById(R.id.entity2);
         TextView relation = findViewById(R.id.relation);
-        if (index >= triplets.size()) {
+        if (index >= triplets.size() || index < 0) {
             Toast.makeText(this, "标注完成", Toast.LENGTH_SHORT).show();
             entity1.setText(null);
             entity2.setText(null);

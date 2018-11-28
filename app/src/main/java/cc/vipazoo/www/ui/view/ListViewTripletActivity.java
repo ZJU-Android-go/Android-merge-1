@@ -35,7 +35,8 @@ public class ListViewTripletActivity extends AppCompatActivity
     static Triplets TRIPLET = new Triplets();
 
     private User user;
-    private List<Map<String, String>> listData;
+//    private List<Map<String, String>> listData;
+    private int item_selected = -1;
 
     static HashMap<Integer, String> relationMap = new HashMap<Integer, String>() {
         {
@@ -64,10 +65,9 @@ public class ListViewTripletActivity extends AppCompatActivity
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO MY_TRIPLET");
 ////////////////////////////////////////////////////////////////////////////////
-        listData = getData();
 
         ListView listView = findViewById(R.id.list_view_triplet);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, listData,
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
                 R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation});
         listView.setAdapter(simpleAdapter);
 
@@ -78,6 +78,7 @@ public class ListViewTripletActivity extends AppCompatActivity
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // return false to continue the message
+                item_selected = i;
                 return false;
             }
         });
@@ -110,6 +111,11 @@ public class ListViewTripletActivity extends AppCompatActivity
             case R.id.selection_show_edit:
                 break;
             case R.id.selection_show_remove:
+                TRIPLET.getTriplets().remove(item_selected);
+                ListView listView = findViewById(R.id.list_view_triplet);
+                SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
+                        R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation});
+                listView.setAdapter(simpleAdapter);
                 break;
             default: break;
         }
