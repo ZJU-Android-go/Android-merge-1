@@ -183,6 +183,16 @@ public class ListViewTripletActivity extends AppCompatActivity
             Log.e("After uploadEntities", "OK");
             Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
             TripletActivity.if_finished = true;
+            switch (uploadController.upload_ret)
+            {
+                case("上传成功"):
+
+                    break;
+                case("数据不能为空"):
+                    break;
+                default:
+                    break;
+            }
         }
         catch(Exception e)
         {

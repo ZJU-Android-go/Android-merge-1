@@ -9,7 +9,7 @@ public class Entity {
     private int start;
     @SerializedName("End")
     private int end;
-    @SerializedName("Nertag")
+    @SerializedName("NerTag")
     private String tag;
 
     public void setName(String name) {
