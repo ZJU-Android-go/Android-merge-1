@@ -18,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "cc.vipazoo.www.ui.view.LoginActivity.toMainActivity";
     private Context context = null;
-    private int try_times = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         return context;
     }
     public void LogIn(View view) {
+        int try_times = 0;
         // get the username and password
         EditText editText1 = findViewById(R.id.editTextUsername);
         String username = editText1.getText().toString();
@@ -73,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
 
             // if try more than 5 times
             if (try_times == 6) {
-                try_times = 0;
                 Toast.makeText(this, "登录超时", Toast.LENGTH_SHORT).show();
                 return;
             }

@@ -1,8 +1,10 @@
 package cc.vipazoo.www.ui.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,7 +23,14 @@ public class SignupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
     public void SignUp(View view) {
+        int try_times = 0;
         // get the input
         EditText editText0 = findViewById(R.id.editTextEmail);
         String Email = editText0.getText().toString();
@@ -34,17 +43,31 @@ public class SignupActivity extends AppCompatActivity {
 
         // HERE to add the operation
         LoginController loginController = new LoginController(username, password1, Email);
-        String status = "";
+        String status;
         if (!password1.equals(password2)) {
             status = "两次密码输入不一致";
         }
         else {
             try {
-                status = loginController.register();
+                loginController.register();
             }
             catch (Exception e){
-                //status = "Something wrong happens";
+                Log.e("ERROR", "^ ^");
             }
+            while (loginController.ret_signup == null) {
+                try {
+                    Thread.sleep(500);
+                    try_times++;
+                }
+                catch (Exception e) {
+
+                }
+                if (try_times == 6) {
+                    Toast.makeText(this, "操作超时", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            status = loginController.ret_signup;
         }
         Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
     }

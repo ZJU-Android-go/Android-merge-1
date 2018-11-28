@@ -225,10 +225,10 @@ public class TripletActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout_triplet);

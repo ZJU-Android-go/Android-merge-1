@@ -75,10 +75,7 @@ public class ListViewTripletActivity extends AppCompatActivity
 ////////////////////////////////////////////////////////////////////////////////
 
         ListView listView = findViewById(R.id.list_view_triplet);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
-                R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation", "status"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation, R.id.list_view_triplet_status});
-        listView.setAdapter(simpleAdapter);
-
+        refreshListView();
         // register for menu
         registerForContextMenu(listView);
 
@@ -90,6 +87,13 @@ public class ListViewTripletActivity extends AppCompatActivity
                 return false;
             }
         });
+    }
+
+    private void refreshListView() {
+        ListView listView = findViewById(R.id.list_view_triplet);
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
+                R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation", "status"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation, R.id.list_view_triplet_status});
+        listView.setAdapter(simpleAdapter);
     }
 
     private List<Map<String, String>> getData() {
@@ -118,16 +122,14 @@ public class ListViewTripletActivity extends AppCompatActivity
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.selection_show_edit:
+                Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.selection_show_remove:
                 TRIPLET.getTriplets().remove(item_selected);
-                ListView listView = findViewById(R.id.list_view_triplet);
-                SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
-                        R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation});
-                listView.setAdapter(simpleAdapter);
                 break;
             default: break;
         }
+        refreshListView();
         return super.onContextItemSelected(item);
     }
 
@@ -172,10 +174,10 @@ public class ListViewTripletActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout_view_triplet);
@@ -184,24 +186,31 @@ public class ListViewTripletActivity extends AppCompatActivity
     }
 
     public void uploadTriplets(View view) {
+        int try_times = 0;
         UploadController uploadController = new UploadController(TRIPLET);
         uploadController.setUser(user);
         try{
             Log.e("Before uploadEntities", "OK");
             uploadController.upload_triplets();
             Log.e("After uploadEntities", "OK");
+            while (uploadController.upload_ret == null) {
+                try {
+                    Thread.sleep(500);
+                    try_times++;
+                }
+                catch (Exception e) {
+
+                }
+                if (try_times == 6) {
+                    Toast.makeText(this, "上传超时", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
             Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
             TripletActivity.if_finished = true;
-            switch (uploadController.upload_ret)
-            {
-                case("上传成功"):
-
-                    break;
-                case("数据不能为空"):
-                    break;
-                default:
-                    break;
-            }
+            TRIPLET.getTriplets().clear();
+            refreshListView();
         }
         catch(Exception e)
         {

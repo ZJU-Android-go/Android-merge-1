@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.ArticleController;
@@ -197,10 +198,10 @@ public class EntityActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout_entity);

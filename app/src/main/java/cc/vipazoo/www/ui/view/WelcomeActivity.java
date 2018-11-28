@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.LoginController;
@@ -78,6 +79,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -119,10 +121,10 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_main);

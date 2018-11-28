@@ -62,10 +62,7 @@ public class ListViewEntityActivity extends AppCompatActivity
 ////////////////////////////////////////////////////////////////////////////////
 
         ListView listView = findViewById(R.id.list_view_entity);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
-                R.layout.list_item_entity, new String[]{"entity", "tag"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
-        listView.setAdapter(simpleAdapter);
-
+        refreshListView();
         // register for menu
         registerForContextMenu(listView);
 
@@ -78,6 +75,13 @@ public class ListViewEntityActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    private void refreshListView() {
+        ListView listView = findViewById(R.id.list_view_entity);
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
+                R.layout.list_item_entity, new String[]{"entity", "tag"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
+        listView.setAdapter(simpleAdapter);
     }
 
     private List<Map<String, String>> getData() {
@@ -104,16 +108,14 @@ public class ListViewEntityActivity extends AppCompatActivity
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.selection_show_edit:
+                Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.selection_show_remove:
                 ENTITIES.getEntities().remove(item_selected);
-                ListView listView = findViewById(R.id.list_view_entity);
-                SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
-                        R.layout.list_item_entity, new String[]{"entity", "tag"}, new int[]{R.id.list_view_entity_text1, R.id.list_view_entity_text2});
-                listView.setAdapter(simpleAdapter);
                 break;
             default: break;
         }
+        refreshListView();
         return super.onContextItemSelected(item);
     }
 
@@ -159,10 +161,10 @@ public class ListViewEntityActivity extends AppCompatActivity
             // DO nothing
         }
         else if (id == R.id.nav_settings) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "有待开发", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout_view_entity);
@@ -194,6 +196,8 @@ public class ListViewEntityActivity extends AppCompatActivity
             }
             Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
             EntityActivity.if_finished = true;
+            ENTITIES.getEntities().clear();
+            refreshListView();
         }
         catch(Exception e)
         {

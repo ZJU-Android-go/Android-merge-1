@@ -25,6 +25,7 @@ public class LoginController {
     static Converter conv = new Converter();
     private static final OkHttpClient connection = new OkHttpClient();
     public String ret_login;
+    public String ret_signup;
     public User getUser() {
         return user;
     }
@@ -163,39 +164,49 @@ public class LoginController {
         }).start();
 
     }
-    public String register() throws  Exception
+    public void register() throws  Exception
     {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+                        @Override
+                        public boolean shouldSkipField(FieldAttributes f) {
+                            return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
+                        }
 
-        Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
-        @Override
-        public boolean shouldSkipField(FieldAttributes f) {
-            return (f.getName().equals("shadow$monitor") || f.getName().equals("shadow$klass"));
-        }
+                        @Override
+                        public boolean shouldSkipClass(Class<?> clazz) {
+                            return false;
+                        }
+                    }).create();
+                    RequestBody formbody = new FormBody.Builder()
+                            .add("username", user.getName())
+                            .add("email", user.getEmail_address())
+                            .add("password", user.getPasswd())
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://10.15.82.223:9090/app_get_data/app_register")
+                            .post(formbody)
+                            .build();
+                    Response response = connection.newCall(request).execute();
+                    if(!response.isSuccessful())
+                    {
+                        throw new IOException("Unexpected code" + response);
+                    }
+                    String js = new String(conv.unicodeToUtf8(response.body().string()));
+                    Web_Message msg;
+                    msg = gson.fromJson(js, Web_Message.class);
+                    ret_signup = msg.getmsg();
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
 
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-            return false;
+            }
+        }).start();
+
         }
-    }).create();
-        RequestBody formbody = new FormBody.Builder()
-                .add("username", user.getName())
-                .add("email", user.getEmail_address())
-                .add("password", user.getPasswd())
-                .build();
-        Request request = new Request.Builder()
-                .url("http://10.15.82.223:9090/app_get_data/app_register")
-                .post(formbody)
-                .build();
-        Response response = connection.newCall(request).execute();
-        if(!response.isSuccessful())
-        {
-            throw new IOException("Unexpected code" + response);
-        }
-        String js = new String(conv.unicodeToUtf8(response.body().string()));
-        Web_Message msg;
-        msg = gson.fromJson(js, Web_Message.class);
-       // final String ret = msg.getmsg();
-        final String ret = formbody.toString();
-        return ret;
-    }
 }
