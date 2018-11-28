@@ -21,7 +21,7 @@ public class UploadController
     private Triplets triplets;
     static Converter conv = new Converter();
     private static final OkHttpClient connection = new OkHttpClient();
-    public String upload_ret;
+    public String upload_ret = null;
 
     public User getuser()
 

@@ -26,6 +26,9 @@ public class EntityActivity extends AppCompatActivity
     private User user;
     private ActionMode.Callback callback_entity;
 
+    // if finished
+    static public boolean if_finished = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,28 @@ public class EntityActivity extends AppCompatActivity
 
 ////////////////////////////////////////////////////////////////////////////////
         // get the first article
-        set_article();
+        if (if_finished) set_article();
+        else {
+            TextView maintitle = findViewById(R.id.maintitle);
+            TextView subtitle = findViewById(R.id.subtitle);
+            TextView article = findViewById(R.id.article_entity);
+            // separate title and subtitle
+            String title = ListViewEntityActivity.ARTICLE.getTitle();
+            String[] title_list = title.split("\\|");
+            // check if the title is not consist of 2 parts
+            if (title_list.length == 2) {
+                maintitle.setText(title_list[0]);
+                subtitle.setText(title_list[1]);
+            }
+            else {
+                maintitle.setText(title);
+                subtitle.setText(null);
+            }
+
+            // set content
+            article.setText(ListViewEntityActivity.ARTICLE.getContent());
+
+        }
 
         // required by my teammate, to deal with text
 
@@ -205,6 +229,7 @@ public class EntityActivity extends AppCompatActivity
         }
 
         ListViewEntityActivity.ENTITIES = new Entities();
+        ListViewEntityActivity.ARTICLE = articleController.getArticle();
         // separate title and subtitle
         String title = articleController.getArticle().getTitle();
         String[] title_list = title.split("\\|");
@@ -219,6 +244,7 @@ public class EntityActivity extends AppCompatActivity
         }
 
         // set content
+        if_finished = false;
         article.setText(articleController.getArticle().getContent());
         // comment the following statement to enable the selection
  //        article.setMovementMethod(ScrollingMovementMethod.getInstance());

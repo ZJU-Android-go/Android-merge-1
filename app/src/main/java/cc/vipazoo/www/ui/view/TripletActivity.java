@@ -37,8 +37,12 @@ public class TripletActivity extends AppCompatActivity
     // if the bottom widget can be seen
     private boolean if_show = true;
 
-    private ArrayList<Triplet> triplets;
-    private int index = 0;
+    //
+    static private ArrayList<Triplet> triplets;
+    static private int index = 0;
+
+    // if finished
+    static public boolean if_finished = true;
 
     private ActionMode.Callback callback_entity;
 
@@ -65,7 +69,31 @@ public class TripletActivity extends AppCompatActivity
 ////////////////////////////////////////////////////////////////////////////////
 
         // get the first triplet
-        set_triplet();
+        if (if_finished) set_triplet();
+        else {
+            TextView maintitle = findViewById(R.id.maintitle);
+            TextView subtitle = findViewById(R.id.subtitle);
+            TextView article = findViewById(R.id.article_triplet);
+
+            String title = ListViewTripletActivity.TRIPLET.getTitle();
+            String[] title_list = title.split("\\|");
+            // check if the title is not consist of 2 parts
+            if (title_list.length == 2) {
+                maintitle.setText(title_list[0]);
+                subtitle.setText(title_list[1]);
+            }
+            else {
+                maintitle.setText(title);
+                subtitle.setText(null);
+            }
+
+            // set content
+            article.setText(ListViewTripletActivity.TRIPLET.getSent_ctx());
+
+            //
+            index--;
+            whole_next();
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TextView textView = findViewById(R.id.article_triplet);
@@ -97,6 +125,11 @@ public class TripletActivity extends AppCompatActivity
                             intent1.putExtra("add_triplet_entity", s);
                             intent1.putExtra("add_triplet_start", start);
                             intent1.putExtra("add_triplet_end", end);
+                            // get the sentence
+                            int sentence_start = String.valueOf(content.getText()).lastIndexOf("。", start);
+                            int sentence_end = String.valueOf(content.getText()).indexOf("。", end);
+                            String sentence = String.valueOf(content.getText().subSequence(sentence_start, sentence_end));
+                            intent1.putExtra("add_triplet_sentence", sentence);
                             startActivity(intent1);
                             content.clearFocus();
                             break;
@@ -311,6 +344,7 @@ public class TripletActivity extends AppCompatActivity
         article.setText(tripletController.getTriplets().getSent_ctx());
 
         // fill constraint whole
+        if_finished = false;
         index = 0;
         triplets = tripletController.getTriplets().getTriplets();
         whole_next();

@@ -25,6 +25,7 @@ import java.util.Map;
 
 import cc.vipazoo.www.ui.R;
 import cc.vipazoo.www.ui.controller.UploadController;
+import cc.vipazoo.www.ui.model.Article;
 import cc.vipazoo.www.ui.model.Entities;
 import cc.vipazoo.www.ui.model.Entity;
 import cc.vipazoo.www.ui.model.User;
@@ -36,6 +37,7 @@ public class ListViewEntityActivity extends AppCompatActivity
     private List<Map<String, String>> listData;
 
     static Entities ENTITIES = new Entities();
+    static Article ARTICLE = new Article();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,14 +164,28 @@ public class ListViewEntityActivity extends AppCompatActivity
     }
 
     public void uploadEntities(View view) {
+        int try_times = 0;
         UploadController uploadController = new UploadController(ENTITIES);
         uploadController.setUser(user);
         try{
             Log.e("Before uploadEntities", "OK");
             uploadController.upload_entities();
             Log.e("After uploadEntities", "OK");
-            Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
+            while (uploadController.upload_ret == null) {
+                try {
+                    Thread.sleep(500);
+                    try_times++;
+                }
+                catch (Exception e) {
 
+                }
+                if (try_times == 6) {
+                    Toast.makeText(this, "上传超时", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
+            EntityActivity.if_finished = true;
         }
         catch(Exception e)
         {

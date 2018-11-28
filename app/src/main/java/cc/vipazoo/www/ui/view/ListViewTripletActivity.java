@@ -176,6 +176,7 @@ public class ListViewTripletActivity extends AppCompatActivity
             uploadController.upload_triplets();
             Log.e("After uploadEntities", "OK");
             Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
+            TripletActivity.if_finished = true;
         }
         catch(Exception e)
         {
