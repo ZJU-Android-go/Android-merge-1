@@ -16,7 +16,6 @@ import cc.vipazoo.www.ui.model.Entity;
 public class AddEntityActivity extends AppCompatActivity {
 
     private String pre, article;
-    private int start, end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +25,6 @@ public class AddEntityActivity extends AppCompatActivity {
         Intent intent = getIntent();
         article = intent.getStringExtra("add_entity_article");
         pre = intent.getStringExtra("add_entity_entity");
-        start = intent.getIntExtra("add_entity_start", -1);
-        end = intent.getIntExtra("add_entity_end", -1);
 
         EditText editText = findViewById(R.id.AddEntityEntity);
         editText.setText(pre);
@@ -44,12 +41,12 @@ public class AddEntityActivity extends AppCompatActivity {
         String stag = tag.getSelectedItem().toString();
 
         // HERE to add the Relation to the other activity
-        start = article.indexOf(sentity);
-        while (start == -1) {
+        int start = article.indexOf(sentity);
+        if (start == -1) {
             Toast.makeText(this, "未找到实体", Toast.LENGTH_SHORT).show();
             return;
         }
-        end = start + sentity.length();
+        int end = start + sentity.length();
 
         Entity e = new Entity();
         e.setName(sentity);
@@ -58,6 +55,7 @@ public class AddEntityActivity extends AppCompatActivity {
         e.setTag(stag);
         ListViewEntityActivity.ENTITIES.getEntities().add(e);
 
+        Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

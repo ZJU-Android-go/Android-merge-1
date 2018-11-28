@@ -16,14 +16,14 @@ public class Triplet {
     private int status;
     public Triplet()
     {
-        id = null;
+        setRandomId();
         left_e_end = 0;
         left_e_start = 0;
         right_e_end = 0;
         right_e_start = 0;
         relation_start = 0;
-        relation_end = 0;
-        relation_id = 0;
+        relation_end = -1;
+        relation_id = -1;
         left_entity = null;
         right_entity = null;
         status = 0;
@@ -33,7 +33,7 @@ public class Triplet {
         this.id = id;
     }
 
-    public void setRandomId()
+    private void setRandomId()
     {
         String[] code = new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                 "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
@@ -46,7 +46,6 @@ public class Triplet {
             temp_id += code[random.nextInt(62)];
         }
         this.id = temp_id;
-        return;
     }
 
     public void setLeft_e_start(int left_e_start) {

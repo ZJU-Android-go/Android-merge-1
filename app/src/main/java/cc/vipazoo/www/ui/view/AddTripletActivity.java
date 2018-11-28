@@ -21,8 +21,8 @@ import cc.vipazoo.www.ui.model.Triplet;
 
 public class AddTripletActivity extends AppCompatActivity {
 
-    private String pre = null;
-    private int start, end;
+    private String pre = null, article;
+    private int sentence_start;
     private String sentence = null;
     private ActionMode.Callback callback_entity;
 
@@ -32,9 +32,9 @@ public class AddTripletActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_triplet);
 
         Intent intent = getIntent();
+        article = intent.getStringExtra("add_triplet_article");
         pre = intent.getStringExtra("add_triplet_entity");
-        start = intent.getIntExtra("add_entity_start", -1);
-        end = intent.getIntExtra("add_entity_end", -1);
+        sentence_start = intent.getIntExtra("add_entity_start", -1);
         sentence = intent.getStringExtra("add_triplet_sentence");
 
         if (sentence != null) {
@@ -101,30 +101,44 @@ public class AddTripletActivity extends AppCompatActivity {
         String sentity2 = entity2.getText().toString();
         String srelation = relation.getSelectedItem().toString();
 
-        if (!ListViewTripletActivity.relationMap.containsValue(srelation)) {
-            Toast.makeText(this, "关系不存在", Toast.LENGTH_SHORT).show();
-            return;
+        // HERE to add the Relation to the other activity
+        int start1, start2;
+        if (sentence == null) {
+            start1 = article.indexOf(sentity1);
+            start2 = article.indexOf(sentity2);
         }
         else {
-            // HERE to add the Relation to the other activity
-            Triplet t = new Triplet();
-            t.setLeft_e_start(start);
-            t.setLeft_e_end(end);
-            t.setLeft_entity(sentity1);
-            // set right position here
-
-            t.setRight_entity(sentity2);
-
-            for (int i : ListViewTripletActivity.relationMap.keySet()) {
-                if (ListViewTripletActivity.relationMap.get(i).equals(srelation)) {
-                    t.setRelation_id(i);
-                    break;
-                }
-            }
-
-            Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT);
-            ListViewTripletActivity.TRIPLET.getTriplets().add(t);
+            start1 = article.indexOf(sentity1, sentence_start);
+            start2 = article.indexOf(sentity2, sentence_start);
         }
+
+        if (start1 == -1 || start2 == -1) {
+            Toast.makeText(this, "未找到实体", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int end1 = start1 + sentity1.length();
+        int end2 = start2 + sentity2.length();
+
+        Triplet t = new Triplet();
+        t.setLeft_e_start(start1);
+        t.setLeft_e_end(end2);
+        t.setLeft_entity(sentity1);
+        t.setRight_e_start(start2);
+        t.setRight_e_end(end2);
+        t.setRight_entity(sentity2);
+        // set relation id
+        for (int i : ListViewTripletActivity.relationMap.keySet()) {
+            if (ListViewTripletActivity.relationMap.get(i).equals(srelation)) {
+                t.setRelation_id(i);
+                break;
+            }
+        }
+
+        t.setStatus(1);
+
+        Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+        ListViewTripletActivity.TRIPLET.getTriplets().add(t);
         finish();
     }
 }

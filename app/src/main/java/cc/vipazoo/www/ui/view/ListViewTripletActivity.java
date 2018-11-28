@@ -45,6 +45,14 @@ public class ListViewTripletActivity extends AppCompatActivity
         }
     };
 
+    static HashMap<Integer, String> statusMap = new HashMap<Integer, String>() {
+        {
+            put(0, "未判断");
+            put(-1, "错误");
+            put(1, "正确");
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +76,7 @@ public class ListViewTripletActivity extends AppCompatActivity
 
         ListView listView = findViewById(R.id.list_view_triplet);
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, getData(),
-                R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation});
+                R.layout.list_item_triplet, new String[]{"entity1", "entity2", "relation", "status"}, new int[]{R.id.list_view_triplet_entity1, R.id.list_view_triplet_entity2, R.id.list_view_triplet_relation, R.id.list_view_triplet_status});
         listView.setAdapter(simpleAdapter);
 
         // register for menu
@@ -92,6 +100,7 @@ public class ListViewTripletActivity extends AppCompatActivity
             map.put("entity1", t.getLeft_entity());
             map.put("entity2", t.getRight_entity());
             map.put("relation", relationMap.get(t.getRelation_id()));
+            map.put("status", statusMap.get(t.getStatus()));
             listData.add(map);
         }
 

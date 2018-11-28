@@ -122,12 +122,12 @@ public class TripletActivity extends AppCompatActivity
                             int start = content.getSelectionStart();
                             int end = content.getSelectionEnd();
                             String s = String.valueOf(content.getText().subSequence(start, end));
+                            intent1.putExtra("add_triplet_article", String.valueOf(content.getText()));
                             intent1.putExtra("add_triplet_entity", s);
-                            intent1.putExtra("add_triplet_start", start);
-                            intent1.putExtra("add_triplet_end", end);
                             // get the sentence
                             int sentence_start = String.valueOf(content.getText()).lastIndexOf("。", start);
                             int sentence_end = String.valueOf(content.getText()).indexOf("。", end);
+                            intent1.putExtra("add_triplet_start", sentence_start + 1);
                             String sentence = String.valueOf(content.getText().subSequence(
                                     (sentence_start == -1 ? 0 : sentence_start + 1),
                                     (sentence_end == -1 ? content.getText().length() : sentence_end + 1)));
@@ -180,7 +180,10 @@ public class TripletActivity extends AppCompatActivity
             return true;
         }
         else if (id == R.id.action_add_relation) {
-            startActivity(new Intent(this, AddTripletActivity.class));
+            Intent intent = new Intent(this, AddTripletActivity.class);
+            TextView content = findViewById(R.id.article_triplet);
+            intent.putExtra("add_triplet_article", String.valueOf(content.getText()));
+            startActivity(intent);
             return true;
         }
         else if (id == R.id.action_new_article) {

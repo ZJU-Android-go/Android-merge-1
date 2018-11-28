@@ -107,8 +107,6 @@ public class EntityActivity extends AppCompatActivity
                             String s = String.valueOf(content.getText().subSequence(start, end));
                             intent1.putExtra("add_entity_article", String.valueOf(content.getText()));
                             intent1.putExtra("add_entity_entity", s);
-                            intent1.putExtra("add_entity_start", start);
-                            intent1.putExtra("add_entity_end", end);
                             startActivity(intent1);
                             content.clearFocus();
                             break;
