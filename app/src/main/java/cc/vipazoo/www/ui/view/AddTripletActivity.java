@@ -97,7 +97,7 @@ public class AddTripletActivity extends AppCompatActivity {
 
         if (!ListViewTripletActivity.relationMap.containsValue(srelation)) {
             Toast.makeText(this, "关系不存在", Toast.LENGTH_SHORT);
-            finish();
+            return;
         }
         else {
             // HERE to add the Relation to the other activity

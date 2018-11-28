@@ -46,7 +46,7 @@ public class EntityActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("TO NAV_ENTITY");
 
 
@@ -105,6 +105,7 @@ public class EntityActivity extends AppCompatActivity
                             int start = content.getSelectionStart();
                             int end = content.getSelectionEnd();
                             String s = String.valueOf(content.getText().subSequence(start, end));
+                            intent1.putExtra("add_entity_article", String.valueOf(content.getText()));
                             intent1.putExtra("add_entity_entity", s);
                             intent1.putExtra("add_entity_start", start);
                             intent1.putExtra("add_entity_end", end);
