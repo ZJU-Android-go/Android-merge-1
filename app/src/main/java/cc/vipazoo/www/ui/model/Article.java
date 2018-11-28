@@ -3,14 +3,14 @@ package cc.vipazoo.www.ui.model;
 public class Article {
     private String title;
     private String content;
-    private int send_id;
+    private int sent_id;
     private String doc_id;
 
     public Article()
     {
         title = null;
         content = null;
-        send_id = 0;
+        sent_id = 0;
         doc_id = null;
     }
     public String getTitle() {
@@ -22,7 +22,7 @@ public class Article {
     }
 
     public int getSend_id() {
-        return send_id;
+        return sent_id;
     }
 
     public String getDoc_id() {
@@ -38,7 +38,7 @@ public class Article {
     }
 
     public void setSend_id(int send_id) {
-        this.send_id = send_id;
+        this.sent_id = send_id;
     }
 
     public void setDoc_id(String doc_id) {

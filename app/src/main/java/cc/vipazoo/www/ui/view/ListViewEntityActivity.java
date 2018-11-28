@@ -170,6 +170,7 @@ public class ListViewEntityActivity extends AppCompatActivity
         try{
             Log.e("Before uploadEntities", "OK");
             uploadController.upload_entities();
+            // no use for different threads ^ ^
             Log.e("After uploadEntities", "OK");
             while (uploadController.upload_ret == null) {
                 try {
@@ -191,7 +192,6 @@ public class ListViewEntityActivity extends AppCompatActivity
         {
             Log.e("uploadController", "ERROR");
             Toast.makeText(this, uploadController.upload_ret, Toast.LENGTH_SHORT).show();
-
         }
     }
 }

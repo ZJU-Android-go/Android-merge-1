@@ -228,8 +228,10 @@ public class EntityActivity extends AppCompatActivity
             }
         }
 
-        ListViewEntityActivity.ENTITIES = new Entities();
         ListViewEntityActivity.ARTICLE = articleController.getArticle();
+        ListViewEntityActivity.ENTITIES = new Entities();
+        ListViewEntityActivity.ENTITIES.setDoc_id(ListViewEntityActivity.ARTICLE.getDoc_id());
+        ListViewEntityActivity.ENTITIES.setSend_id(ListViewEntityActivity.ARTICLE.getSend_id());
         // separate title and subtitle
         String title = articleController.getArticle().getTitle();
         String[] title_list = title.split("\\|");
